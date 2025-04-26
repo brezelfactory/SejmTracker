@@ -71,7 +71,7 @@ settings/
 *.sublime-workspace
 
 # Visual Studio Code
-vscode/*
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -92,7 +92,7 @@ DS_Store
 Thumbs.db
 
 # Angular specific files
-angular/cache
+.angular/cache
 
 # End-to-end testing files
 /e2e/*.js
@@ -105,4 +105,3 @@ env.test.local
 env.production.local
 
 # Logs and temporary files generated during development and build processes[^1^](https://github.com/angular/angular/blob/main/.gitignore)[^2^](https://www.cloudhadoop.com/angular-gitignore-example)
-.editorconfig
