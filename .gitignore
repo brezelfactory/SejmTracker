@@ -71,11 +71,11 @@ settings/
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
 
 # Miscellaneous
 /.sass-cache
@@ -105,3 +105,4 @@ env.test.local
 env.production.local
 
 # Logs and temporary files generated during development and build processes[^1^](https://github.com/angular/angular/blob/main/.gitignore)[^2^](https://www.cloudhadoop.com/angular-gitignore-example)
+.editorconfig
