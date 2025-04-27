@@ -22,25 +22,60 @@ export class VotingService {
   }
 
 
-  //todo: get rid of `any` and create a proper interface for the response
   getVoting(term: number, proceeding: number, sitting: number): Observable<Voting> {
     //https://api.sejm.gov.pl/sejm/term10/votings/2/1
-    return this.httpClient.get<any>(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}/${sitting}`)
+    return this.httpClient.get<VotingHttpResponse>(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}/${sitting}`)
       .pipe(map(response => ({
         title: response.title,
-        description: response.description,
+        topic: response.topic,
         date: response.date,
+        totalVoted: response.totalVoted,
         yes: response.yes,
         no: response.no,
         abstain: response.abstain,
-        notParticipating: response.notParticipating,  
-        totalVoted: response.totalVoted,
-        votes: response.votes.map((vote: any) => ({
-          first_name: vote.first_name,
-          last_name: vote.last_name,
+        notParticipating: response.notParticipating,
+        votes: (response.votes ?? []).map((vote: VoteHttpResponse) => ({
+          first_name: vote.firstName,
+          last_name: vote.lastName,
           club: vote.club,
-          voted: vote.voted
-        } as ParlamentMember))
+          voted: vote.vote,        } as ParlamentMember))
       })));
   }
 }
+
+interface VotingHttpResponse {
+  abstain: number;
+  date: string;
+  kind: 'ELECTRONIC' | 'TRADITIONAL' | 'ON_LIST';
+  links: LinkHttpResponse[];
+  majorityType: 'SIMPLE_MAJORITY' | 'ABSOLUTE_MAJORITY' | 'QUALIFIED_MAJORITY';
+  majorityVotes: number;
+  no: number;
+  notParticipating: number;
+  present: number;
+  sitting: number;
+  sittingDay: number;
+  term: number;
+  title: string;
+  topic: string;
+  totalVoted: number;
+  votes: VoteHttpResponse[];
+  votingNumber: number;
+  yes: number;
+}
+
+interface LinkHttpResponse {
+  href: string;
+  rel: string;
+}
+
+interface VoteHttpResponse {
+  MP: number;
+  club: string;
+  firstName: string;
+  lastName: string;
+  secondName?: string;
+  vote: 'YES' | 'NO' | 'ABSTAIN' | 'VOTE_VALID';
+}
+
+
