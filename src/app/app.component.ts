@@ -14,7 +14,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 export class AppComponent implements OnInit {
   constructor(private votingService: VotingService) { }
   votingResults = signal<Voting | undefined>(undefined);
-  displayedColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
+  showDetailedVotingResults = signal<boolean>(false);
+  detailedVotingResultsColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
 
   ngOnInit(): void {
     this.votingService.getVoting(10, 4, 1).subscribe(
@@ -28,4 +29,7 @@ export class AppComponent implements OnInit {
       }
     );
   }
+
+  toggleShowDetailedVotingResults() {
+    this.showDetailedVotingResults.set(!this.showDetailedVotingResults());}
 }
