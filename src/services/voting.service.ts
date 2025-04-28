@@ -35,10 +35,11 @@ export class VotingService {
         abstain: response.abstain,
         notParticipating: response.notParticipating,
         votes: (response.votes ?? []).map((vote: VoteHttpResponse) => ({
-          first_name: vote.firstName,
-          last_name: vote.lastName,
+          firstName: vote.firstName,
+          lastName: vote.lastName,
           club: vote.club,
-          voted: vote.vote,        } as ParlamentMember))
+          voted: vote.vote,
+        } as ParlamentMember))
       })));
   }
 }
