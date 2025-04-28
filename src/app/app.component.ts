@@ -1,22 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { JsonPipe } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
 import { VotingService } from '../services/voting.service';
 import { Voting } from '../model/voting';
+import { MatTableModule } from '@angular/material/table'
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 
 @Component({
   selector: 'app-root',
-  imports: [JsonPipe],
+  imports: [MatTableModule, MatButtonToggleModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   constructor(private votingService: VotingService) { }
-  votingData: Voting | undefined; // Define the type of votingData as Voting or undefined
+  votingResults = signal<Voting | undefined>(undefined);
+  displayedColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
 
   ngOnInit(): void {
     this.votingService.getVoting(10, 4, 1).subscribe(
       data => {
-        this.votingData = data;
+        this.votingResults.set(data);
         console.log('Voting data fetched successfully:', data);
         console.log(data);
       },
