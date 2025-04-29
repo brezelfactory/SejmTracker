@@ -8,9 +8,7 @@
 </div>
 
 <!-- Pie chart -->
-<app-pie-chart [yes]="this.votingResults()!.yes" [no]="this.votingResults()!.no"
-[abstain]="this.votingResults()!.abstain"
-[notParticipating]="this.votingResults()!.notParticipating"></app-pie-chart>
+<app-pie-chart [votes]="this.votingResults()!"></app-pie-chart>
 
 <!-- Voting details -->
 <mat-accordion>
