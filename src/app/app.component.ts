@@ -1,15 +1,18 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { VotingService } from '../services/voting.service';
 import { Voting } from '../model/voting';
 import { MatTableModule } from '@angular/material/table'
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PieChartComponent } from '../components/pie-chart/pie-chart.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [MatTableModule, MatButtonToggleModule],
+  imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   constructor(private votingService: VotingService) { }
@@ -31,5 +34,6 @@ export class AppComponent implements OnInit {
   }
 
   toggleShowDetailedVotingResults() {
-    this.showDetailedVotingResults.set(!this.showDetailedVotingResults());}
+    this.showDetailedVotingResults.set(!this.showDetailedVotingResults());
+  }
 }
