@@ -13,12 +13,7 @@ export class PieChartComponent implements OnInit {
   }
   chart: Chart | undefined;
   votes = input.required<{ yes: number, no: number, abstain: number, notParticipating: number }>();
-
-  // yes = input.required<number>();
-  // no = input.required<number>();
-  // abstain = input.required<number>();
-  // notParticipating = input.required<number>();
-
+  
   createChart() {
     if (!this.votes()) return;
 

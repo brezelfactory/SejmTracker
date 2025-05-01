@@ -10,17 +10,13 @@ import { ParlamentMember } from '../model/parlament-member';
 export class VotingService {
 
   constructor(private httpClient: HttpClient) { }
-  private baseUrl = 'https://api.sejm.gov.pl'; // Base URL for SejmApi
+  private baseUrl = 'https://api.sejm.gov.pl';
 
-  getVotings(term: number, proceeding: number): Observable<Array<Voting>> {
+  getVotings(term: number, proceeding: number): Observable<Voting[]> {
     //https://api.sejm.gov.pl/sejm/term10/votings/2
-    var response = this.httpClient.get(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}`)
-      .pipe(response => response as Observable<Array<Voting>>);
-
-    console.log(response);
-    return response;
+    return this.httpClient.get(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}`)
+      .pipe(response => response as Observable<Voting[]>);
   }
-
 
   getVoting(term: number, proceeding: number, sitting: number): Observable<Voting> {
     //https://api.sejm.gov.pl/sejm/term10/votings/2/1
