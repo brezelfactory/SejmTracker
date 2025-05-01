@@ -1,14 +1,27 @@
-<mat-form-field>
-  <mat-label>Wybierz kadencję</mat-label>
-  <mat-select [(value)]="selectedTerm">
-    @for (term of this.terms(); track term) {
-      <mat-option [value] = "term">{{term}}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
+<div class="app-selecting-term">
+  <mat-form-field>
+    <mat-label>Wybierz kadencję</mat-label>
+    <mat-select [(value)]="selectedTerm" (valueChange)="onTermChange($event)">
+      @for (term of this.terms(); track term) {
+      <mat-option [value]="term">{{term}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  
+  @if (this.proceedings().length > 0) {
+  <mat-form-field>
+    <mat-label>Wybierz posiedzenie</mat-label>
+    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingChange($event)">
+      @for (proceeding of this.proceedings(); track proceeding) {
+      <mat-option [value]="proceeding">{{proceeding.number}} {{proceeding.title}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  }
+</div>
+
 
 @if (this.votingResults()) {
-
 <!-- Voting results -->
 <div class="app-voting-main-results">
   <p>Tytuł: {{this.votingResults()?.title}}</p>

@@ -14,7 +14,9 @@ export class ProceedingService {
   getAllProceedings(term: number): Observable<Proceeding[]> {
 
     return this.httpClient.get<ProceedingHttpResponse[]>(`${this.baseUrl}${term}/proceedings`).
-      pipe(map(terms: Procee => terms.map(term => ({ number: term.number, title: term.title } as Proceeding))));
+      pipe(map(terms => terms
+        .map(term => ({ number: term.number, title: term.title } as Proceeding))
+        .sort((a, b) => a.number - b.number)));
   }
 }
 

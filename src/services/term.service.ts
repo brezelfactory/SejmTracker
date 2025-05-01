@@ -14,7 +14,8 @@ export class TermService {
   getAllTerms(): Observable<number[]> {
 
     return this.httpClient.get<TermHttpResponse[]>(`${this.baseUrl}`).
-      pipe(map(terms => terms.map(term => term.num)));
+      pipe(map(terms => terms.map(term => term.num)
+      .sort((a, b) => a - b)));
   }
 }
 

@@ -9,6 +9,8 @@ import { PieChartComponent } from '../components/pie-chart/pie-chart.component';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TermService } from '../services/term.service';
+import { ProceedingService } from '../services/proceeding.service';
+import { Proceeding } from '../model/proceeding';
 
 
 @Component({
@@ -19,12 +21,21 @@ import { TermService } from '../services/term.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  constructor(private votingService: VotingService, private termService: TermService) { }
+  constructor(private votingService: VotingService, private termService: TermService, private proceedingService: ProceedingService) { }
+  
+  //terms
+  selectedTerm = signal<string | undefined>(undefined);
+  terms = signal<number[]>([]);
+
+  //proceedings
+  proceedings = signal<Proceeding[]>([]);
+  selectedProceeding = signal<Proceeding | undefined>(undefined);
+  
+  //votings
   votingResults = signal<Voting | undefined>(undefined);
   showDetailedVotingResults = signal<boolean>(false);
   detailedVotingResultsColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
-  selectedTerm = signal<string | undefined>(undefined);
-  terms = signal<number[]>([]);
+  
 
   ngOnInit(): void {
     this.termService.getAllTerms().subscribe(
@@ -41,7 +52,6 @@ export class AppComponent implements OnInit {
       data => {
         this.votingResults.set(data);
         console.log('Voting data fetched successfully:', data);
-        console.log(data);
       },
       error => {
         console.error('Error fetching voting data:', error);
@@ -49,7 +59,23 @@ export class AppComponent implements OnInit {
     );
   }
 
-  toggleShowDetailedVotingResults() {
-    this.showDetailedVotingResults.set(!this.showDetailedVotingResults());
+  onTermChange(selectedTerm: number) {
+    if (this.selectedTerm() === undefined) {
+      return;
+    }
+
+    this.proceedingService.getAllProceedings(Number(this.selectedTerm())).subscribe(
+      data => {
+        this.proceedings.set(data);
+        console.log('Proceedings fetched successfully:', data);
+      },
+      error => {
+        console.error('Error fetching proceedings:', error);
+      }
+    );
   }
+
+  onProceedingChange($event: any) {
+    throw new Error('Method not implemented.');
+    }
 }
