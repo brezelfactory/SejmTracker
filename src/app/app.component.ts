@@ -12,7 +12,6 @@ import { TermService } from '../services/term.service';
 import { ProceedingService } from '../services/proceeding.service';
 import { Proceeding } from '../model/proceeding';
 
-
 @Component({
   selector: 'app-root',
   imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent, MatSelectModule, FormsModule, MatFormFieldModule],
@@ -22,23 +21,27 @@ import { Proceeding } from '../model/proceeding';
 })
 export class AppComponent implements OnInit {
   constructor(private votingService: VotingService, private termService: TermService, private proceedingService: ProceedingService) { }
-  
+
   //terms
-  selectedTerm = signal<string | undefined>(undefined);
+  selectedTerm = signal<number | undefined>(undefined);
   terms = signal<number[]>([]);
 
   //proceedings
   proceedings = signal<Proceeding[]>([]);
   selectedProceeding = signal<Proceeding | undefined>(undefined);
-  
+
   //votings
+  votings = signal<Voting[]>([]);
+  selectedVoting = signal<Voting | undefined>(undefined);
+
+  //voting results
   votingResults = signal<Voting | undefined>(undefined);
   showDetailedVotingResults = signal<boolean>(false);
   detailedVotingResultsColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
-  
+
 
   ngOnInit(): void {
-    this.termService.getAllTerms().subscribe(
+    this.termService.getTerms().subscribe(
       terms => {
         this.terms.set(terms);
         console.log('Terms fetched successfully:', terms);
@@ -47,24 +50,10 @@ export class AppComponent implements OnInit {
         console.error('Error fetching terms:', error);
       }
     );
-
-    this.votingService.getVoting(10, 4, 1).subscribe(
-      data => {
-        this.votingResults.set(data);
-        console.log('Voting data fetched successfully:', data);
-      },
-      error => {
-        console.error('Error fetching voting data:', error);
-      }
-    );
   }
 
-  onTermChange(selectedTerm: number) {
-    if (this.selectedTerm() === undefined) {
-      return;
-    }
-
-    this.proceedingService.getAllProceedings(Number(this.selectedTerm())).subscribe(
+  onTermSelected($selectedTerm: number) {
+    this.proceedingService.getProceedings(Number($selectedTerm)).subscribe(
       data => {
         this.proceedings.set(data);
         console.log('Proceedings fetched successfully:', data);
@@ -75,7 +64,36 @@ export class AppComponent implements OnInit {
     );
   }
 
-  onProceedingChange($event: any) {
-    throw new Error('Method not implemented.');
+  onProceedingSelected($selectedProceeding: Proceeding) {
+    if (this.selectedTerm() === undefined) {
+      return;
     }
+
+    this.votingService.getVotings(this.selectedTerm()!, $selectedProceeding.number).subscribe(
+      data => {
+        this.votings.set(data);
+        console.log('Votings fetched successfully:', data);
+      },
+      error => {
+        console.error('Error fetching votings:', error);
+      }
+    );
+  }
+
+  onVotingSelected(selectedVoting: Voting) {
+
+    if (this.selectedTerm() === undefined || this.selectedProceeding() === undefined) {
+      return;
+    }
+
+    this.votingService.getVoting(this.selectedTerm()!, this.selectedProceeding()!.number, selectedVoting.votingNumber).subscribe(
+      data => {
+        this.votingResults.set(data);
+        console.log('Voting data fetched successfully:', data);
+      },
+      error => {
+        console.error('Error fetching voting data:', error);
+      }
+    );
+  }
 }

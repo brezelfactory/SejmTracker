@@ -11,10 +11,10 @@ export class TermService {
 
   private baseUrl = 'https://api.sejm.gov.pl/sejm/term';
 
-  getAllTerms(): Observable<number[]> {
+  getTerms(): Observable<number[]> {
 
     return this.httpClient.get<TermHttpResponse[]>(`${this.baseUrl}`).
-      pipe(map(terms => terms.map(term => term.num)
+      pipe(map(response => response.map(term => term.num)
       .sort((a, b) => a - b)));
   }
 }

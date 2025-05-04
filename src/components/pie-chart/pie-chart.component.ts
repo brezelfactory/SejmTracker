@@ -1,41 +1,50 @@
-import { Component, input, OnInit } from '@angular/core';
-import Chart from 'chart.js/auto';
+import { Component, computed, input, OnInit, signal } from '@angular/core';
+import { ChartConfiguration } from 'chart.js/auto';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-pie-chart',
-  imports: [],
+  imports: [BaseChartDirective],
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.scss'
 })
 export class PieChartComponent implements OnInit {
-  ngOnInit(): void {
-    this.createChart();
-  }
-  chart: Chart | undefined;
-  votes = input.required<{ yes: number, no: number, abstain: number, notParticipating: number }>();
-  
-  createChart() {
-    if (!this.votes()) return;
 
-    this.chart = new Chart("MyChart", {
-      type: 'pie',
-      data: {
-        labels: ['Za', 'Przeciw', 'Wstrzymał się', 'Nieobecny'],
-        datasets: [{
-          label: 'Wyniki głosowania',
-          data: [this.votes()!.yes, this.votes()!.no, this.votes()!.abstain, this.votes()!.notParticipating],
-          backgroundColor: [
-            'red',
-            'green',
-            'blue',
-            'grey',
-          ],
-          hoverOffset: 4
-        }],
+  ngOnInit(): void {
+    this.updateChart();
+  }
+
+  votingResults = input.required<{ yes: number, no: number, abstain: number, notParticipating: number}>();
+  data = computed(() => this.updateChart());
+  
+  options: ChartConfiguration<'pie'>['options'] = {
+    aspectRatio: 3,
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
       },
-      options: {
-        aspectRatio: 3
+      title: {
+        display: true,
+        text: 'Wyniki głosowania'
       }
-    });
+    }
+  }
+
+  updateChart() {
+    return ({
+      labels: ['Za', 'Przeciw', 'Wstrzymał się', 'Nieobecny'],
+      datasets: [{
+        label: 'Wyniki głosowania',
+        data: [this.votingResults().yes, this.votingResults().no, this.votingResults().abstain, this.votingResults().notParticipating],
+        backgroundColor: [
+          'red',
+          'green',
+          'blue',
+          'grey',
+        ],
+        hoverOffset: 4
+      }]
+    } as ChartConfiguration<'pie'>['data']);
   }
 }

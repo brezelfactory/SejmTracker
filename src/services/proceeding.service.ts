@@ -11,12 +11,12 @@ export class ProceedingService {
   constructor(private httpClient: HttpClient) { }
   private baseUrl = 'https://api.sejm.gov.pl/sejm/term';
 
-  getAllProceedings(term: number): Observable<Proceeding[]> {
+  getProceedings(term: number): Observable<Proceeding[]> {
 
     return this.httpClient.get<ProceedingHttpResponse[]>(`${this.baseUrl}${term}/proceedings`).
-      pipe(map(terms => terms
+      pipe(map(response => response
         .map(term => ({ number: term.number, title: term.title } as Proceeding))
-        .sort((a, b) => a.number - b.number)));
+        .sort()));
   }
 }
 

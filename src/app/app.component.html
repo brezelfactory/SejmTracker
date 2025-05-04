@@ -1,7 +1,7 @@
 <div class="app-selecting-term">
   <mat-form-field>
     <mat-label>Wybierz kadencję</mat-label>
-    <mat-select [(value)]="selectedTerm" (valueChange)="onTermChange($event)">
+    <mat-select [(value)]="selectedTerm" (valueChange)="onTermSelected($event)">
       @for (term of this.terms(); track term) {
       <mat-option [value]="term">{{term}}</mat-option>
       }
@@ -11,17 +11,28 @@
   @if (this.proceedings().length > 0) {
   <mat-form-field>
     <mat-label>Wybierz posiedzenie</mat-label>
-    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingChange($event)">
+    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingSelected($event)">
       @for (proceeding of this.proceedings(); track proceeding) {
-      <mat-option [value]="proceeding">{{proceeding.number}} {{proceeding.title}}</mat-option>
+      <mat-option [value]="proceeding">{{proceeding.title}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
   }
+
+  @if (this.proceedings().length > 0 && this.votings().length > 0) {
+    <mat-form-field>
+      <mat-label>Wybierz głosowanie</mat-label>
+      <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
+        @for (voting of this.votings(); track voting) {
+        <mat-option [value]="voting">{{voting.title}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    }
 </div>
 
 
-@if (this.votingResults()) {
+@if (this.votingResults() && this.proceedings().length > 0 && this.votings().length > 0) {
 <!-- Voting results -->
 <div class="app-voting-main-results">
   <p>Tytuł: {{this.votingResults()?.title}}</p>
@@ -30,7 +41,7 @@
 </div>
 
 <!-- Pie chart -->
-<app-pie-chart [votes]="this.votingResults()!"></app-pie-chart>
+<app-pie-chart [votingResults]="this.votingResults()!"></app-pie-chart>
 
 <!-- Voting details -->
 <mat-accordion>
