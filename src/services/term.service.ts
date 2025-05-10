@@ -15,7 +15,7 @@ export class TermService {
 
     return this.httpClient.get<TermHttpResponse[]>(`${this.baseUrl}`).
       pipe(map(response => response.map(term => term.num)
-      .sort((a, b) => a - b)));
+        .sort((a, b) => b - a)));
   }
 }
 

@@ -11,16 +11,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { TermService } from '../services/term.service';
 import { ProceedingService } from '../services/proceeding.service';
 import { Proceeding } from '../model/proceeding';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
-  imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent, MatSelectModule, FormsModule, MatFormFieldModule],
+  imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent, MatSelectModule, FormsModule, MatFormFieldModule, MatSnackBarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  constructor(private votingService: VotingService, private termService: TermService, private proceedingService: ProceedingService) { }
+  constructor(private votingService: VotingService, private termService: TermService, private proceedingService: ProceedingService, private snackBar: MatSnackBar) { }
 
   //terms
   selectedTerm = signal<number | undefined>(undefined);
@@ -43,8 +44,15 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.termService.getTerms().subscribe(
       terms => {
-        this.terms.set(terms);
-        console.log('Terms fetched successfully:', terms);
+        if (terms.length != 0) {
+          this.terms.set(terms);
+          this.selectedTerm.set(terms[0]);
+          this.onTermSelected(this.selectedTerm()!)
+          console.log('Terms fetched successfully:', terms);
+        } else {
+          console.error('No terms available');
+          this.snackBar.open("Nie ma dostępnych kadencji.");
+        }
       },
       error => {
         console.error('Error fetching terms:', error);
@@ -53,10 +61,22 @@ export class AppComponent implements OnInit {
   }
 
   onTermSelected($selectedTerm: number) {
+    // Clear previous selections
+    this.proceedings.set([]);
+    this.selectedProceeding.set(undefined);
+    this.votings.set([]);
+    this.selectedVoting.set(undefined);
+
+    // Getting proceedings for the selected term
     this.proceedingService.getProceedings(Number($selectedTerm)).subscribe(
-      data => {
-        this.proceedings.set(data);
-        console.log('Proceedings fetched successfully:', data);
+      proceedings => {
+        if (proceedings.length != 0) {
+          this.proceedings.set(proceedings);
+          console.log('Proceedings fetched successfully:', proceedings);
+        } else {
+          console.error('No proceedings available for the selected term');
+          this.snackBar.open("Nie ma dostępnych posiedzeń.", "Zamknij");
+        }
       },
       error => {
         console.error('Error fetching proceedings:', error);
@@ -69,10 +89,21 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    // Clear previous selections
+    this.votings.set([]);
+    this.selectedVoting.set(undefined);
+
+    // Getting votings for the selected term and proceeding
     this.votingService.getVotings(this.selectedTerm()!, $selectedProceeding.number).subscribe(
-      data => {
-        this.votings.set(data);
-        console.log('Votings fetched successfully:', data);
+      votings => {
+        if (votings.length != 0) {
+          this.votings.set(votings);
+          this.selectedVoting.set(undefined);
+          console.log('Votings fetched successfully:', votings);
+        } else {
+          console.error('No votings available for the selected term and proceeding');
+          this.snackBar.open("Nie ma dostępnych głosowań.", "Zamknij");
+        }
       },
       error => {
         console.error('Error fetching votings:', error);

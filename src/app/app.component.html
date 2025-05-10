@@ -1,38 +1,38 @@
 <div class="app-selecting-term">
   <mat-form-field>
-    <mat-label>Wybierz kadencję</mat-label>
+    <mat-label>{{this.terms().length > 0 ? "Wybierz kadencję" : "Brak dostępnych kadencji"}}</mat-label>
     <mat-select [(value)]="selectedTerm" (valueChange)="onTermSelected($event)">
       @for (term of this.terms(); track term) {
       <mat-option [value]="term">{{term}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-  
-  @if (this.proceedings().length > 0) {
+
+  @if (this.terms().length > 0 && this.selectedTerm() != undefined) {
   <mat-form-field>
-    <mat-label>Wybierz posiedzenie</mat-label>
-    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingSelected($event)">
+    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej kadencji"}}</mat-label>
+    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingSelected($event)" [disabled]="this.proceedings().length === 0">
       @for (proceeding of this.proceedings(); track proceeding) {
       <mat-option [value]="proceeding">{{proceeding.title}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-  }
 
-  @if (this.proceedings().length > 0 && this.votings().length > 0) {
-    <mat-form-field>
-      <mat-label>Wybierz głosowanie</mat-label>
-      <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
-        @for (voting of this.votings(); track voting) {
-        <mat-option [value]="voting">{{voting.title}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    }
+
+  @if (this.proceedings().length > 0 && this.selectedProceeding() != undefined) {
+  <mat-form-field>
+    <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym posiedzeniu"}}</mat-label>
+    <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
+      @for (voting of this.votings(); track voting) {
+      <mat-option [value]="voting">{{voting.title}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  }
+}
 </div>
 
-
-@if (this.votingResults() && this.proceedings().length > 0 && this.votings().length > 0) {
+@if (this.votingResults() && this.proceedings().length > 0 && this.votings().length > 0 && this.selectedVoting() != undefined) {
 <!-- Voting results -->
 <div class="app-voting-main-results">
   <p>Tytuł: {{this.votingResults()?.title}}</p>
