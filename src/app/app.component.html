@@ -10,8 +10,10 @@
 
   @if (this.terms().length > 0 && this.selectedTerm() != undefined) {
   <mat-form-field>
-    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej kadencji"}}</mat-label>
-    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingSelected($event)" [disabled]="this.proceedings().length === 0">
+    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej
+      kadencji"}}</mat-label>
+    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingSelected($event)"
+      [disabled]="this.proceedings().length === 0">
       @for (proceeding of this.proceedings(); track proceeding) {
       <mat-option [value]="proceeding">{{proceeding.title}}</mat-option>
       }
@@ -21,7 +23,8 @@
 
   @if (this.proceedings().length > 0 && this.selectedProceeding() != undefined) {
   <mat-form-field>
-    <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym posiedzeniu"}}</mat-label>
+    <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym
+      posiedzeniu"}}</mat-label>
     <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
       @for (voting of this.votings(); track voting) {
       <mat-option [value]="voting">{{voting.title}}</mat-option>
@@ -29,10 +32,11 @@
     </mat-select>
   </mat-form-field>
   }
-}
+  }
 </div>
 
-@if (this.votingResults() && this.proceedings().length > 0 && this.votings().length > 0 && this.selectedVoting() != undefined) {
+@if (this.votingResults() && this.proceedings().length > 0 && this.votings().length > 0 && this.selectedVoting() !=
+undefined) {
 <!-- Voting results -->
 <div class="app-voting-main-results">
   <p>Tytuł: {{this.votingResults()?.title}}</p>
@@ -79,3 +83,9 @@
   </mat-expansion-panel>
 </mat-accordion>
 }
+<div class="centering-container">
+  @if(this.isLoading()) {
+  <mat-progress-spinner mode="indeterminate">
+  </mat-progress-spinner>
+  }
+</div>
