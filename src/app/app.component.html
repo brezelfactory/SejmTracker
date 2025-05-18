@@ -8,30 +8,27 @@
     </mat-select>
   </mat-form-field>
 
-  @if (this.terms().length > 0 && this.selectedTerm() != undefined) {
+  @if (this.terms().length > 0 && this.selectedTerm() != undefined && this.filteredProceedings != undefined) {
   <mat-form-field>
-    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej
-      kadencji"}}</mat-label>
-    <mat-select [(value)]="selectedProceeding" (valueChange)="onProceedingSelected($event)"
-      [disabled]="this.proceedings().length === 0">
-      @for (proceeding of this.proceedings(); track proceeding) {
+    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej kadencji"}}</mat-label>
+    <input type="text" matInput [formControl]="proceedingControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProceedings">
+      @for (proceeding of this.filteredProceedings | async; track proceeding) {
       <mat-option [value]="proceeding">{{proceeding.title}}</mat-option>
       }
-    </mat-select>
+    </mat-autocomplete>
   </mat-form-field>
 
-
-  @if (this.proceedings().length > 0 && this.selectedProceeding() != undefined) {
-  <mat-form-field>
-    <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym
-      posiedzeniu"}}</mat-label>
-    <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
-      @for (voting of this.votings(); track voting) {
-      <mat-option [value]="voting">{{voting.title}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  }
+    @if (this.proceedings().length > 0 && this.selectedProceeding() != undefined) {
+    <mat-form-field>
+      <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym posiedzeniu"}}</mat-label>
+      <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
+        @for (voting of this.votings(); track voting) {
+        <mat-option [value]="voting">{{voting.title}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    }
   }
 </div>
 
