@@ -13,7 +13,7 @@ import { ProceedingService } from '../services/proceeding.service';
 import { Proceeding } from '../model/proceeding';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, Observable, startWith } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onProceedingSelected($selectedProceeding: Proceeding) {
+  onProceedingSelected($event: MatAutocompleteSelectedEvent) {
     if (this.selectedTerm() === undefined) {
       return;
     }
@@ -109,9 +109,10 @@ export class AppComponent implements OnInit {
     // Clear previous selections
     this.votings.set([]);
     this.selectedVoting.set(undefined);
+    this.selectedProceeding.set($event.option.value as Proceeding);
 
     // Getting votings for the selected term and proceeding
-    this.votingService.getVotings(this.selectedTerm()!, $selectedProceeding.number).subscribe({
+    this.votingService.getVotings(this.selectedTerm()!, this.selectedProceeding()!.number).subscribe({
       next: (votings) => {
         if (votings.length != 0) {
           this.votings.set(votings);
