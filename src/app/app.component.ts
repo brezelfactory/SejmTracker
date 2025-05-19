@@ -42,6 +42,8 @@ export class AppComponent implements OnInit {
   //votings
   votings = signal<Voting[]>([]);
   selectedVoting = signal<Voting | undefined>(undefined);
+  votingsControl = new FormControl<string | Voting>('');
+  filteredVotings: Observable<Voting[]> | undefined;
 
   //voting results
   votingResults = signal<Voting | undefined>(undefined);
@@ -106,10 +108,13 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    this.isLoading.set(true);
+
     // Clear previous selections
     this.votings.set([]);
     this.selectedVoting.set(undefined);
     this.selectedProceeding.set($event.option.value as Proceeding);
+    this.votingsControl.setValue('');
 
     // Getting votings for the selected term and proceeding
     this.votingService.getVotings(this.selectedTerm()!, this.selectedProceeding()!.number).subscribe({
@@ -127,18 +132,22 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych głosowań.");
       },
       complete: () => {
+        this._filterVotings();
         this.isLoading.set(false);
       }
     });
   }
 
-  onVotingSelected(selectedVoting: Voting) {
+  onVotingSelected($event: MatAutocompleteSelectedEvent) {
 
     if (this.selectedTerm() === undefined || this.selectedProceeding() === undefined) {
       return;
     }
 
-    this.votingService.getVoting(this.selectedTerm()!, this.selectedProceeding()!.number, selectedVoting.votingNumber).subscribe({
+    this.isLoading.set(true);
+    this.selectedVoting.set($event.option.value as Voting);
+    
+    this.votingService.getVoting(this.selectedTerm()!, this.selectedProceeding()!.number, this.selectedVoting()!.votingNumber).subscribe({
       next: (votingResults) => {
         if (votingResults) {
           this.votingResults.set(votingResults);
@@ -157,8 +166,13 @@ export class AppComponent implements OnInit {
     });
   }
 
+  //TODO: simplify
   displayProceedings(proceeding: Proceeding): string {
     return proceeding && proceeding.title ? proceeding.title : '';
+  }
+
+  displayVotings(voting: Voting): string {
+    return voting && voting.title ? voting.title : '';
   }
 
   private _openSnackBar(message: string) {
@@ -177,6 +191,21 @@ export class AppComponent implements OnInit {
         return input ? this._filter(input) : this.proceedings().slice();
       }),
     );
+  }
+
+  private _filterVotings() {
+    this.filteredVotings = this.votingsControl.valueChanges.pipe(
+      startWith(undefined),
+      map(filteringInput => {
+        const input = typeof filteringInput === 'string' ? filteringInput : filteringInput?.title;
+        return input ? this._filterVoting(input) : this.votings().slice();
+      }),
+    );
+  }
+
+  private _filterVoting(filteringInput: string): Voting[] {
+    const input = filteringInput.toLowerCase();
+    return this.votings().filter(option => option.title.toLowerCase().includes(input));
   }
 
   private _filter(filteringInput: string): Proceeding[] {

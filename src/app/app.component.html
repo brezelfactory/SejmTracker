@@ -22,11 +22,12 @@
     @if (this.proceedings().length > 0 && this.selectedProceeding() != undefined) {
     <mat-form-field>
       <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym posiedzeniu"}}</mat-label>
-      <mat-select [(value)]="selectedVoting" (valueChange)="onVotingSelected($event)">
-        @for (voting of this.votings(); track voting) {
+      <input type="text" matInput [formControl]="votingsControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayVotings" (optionSelected)="onVotingSelected($event)">
+        @for (voting of this.filteredVotings | async; track voting) {
         <mat-option [value]="voting">{{voting.title}}</mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
     }
   }
