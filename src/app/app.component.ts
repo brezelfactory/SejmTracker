@@ -14,14 +14,12 @@ import { Proceeding } from '../model/proceeding';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { map, Observable, startWith } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
   imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent, MatSelectModule, FormsModule, MatFormFieldModule, MatSnackBarModule,
-    MatProgressSpinnerModule, MatAutocompleteModule, ReactiveFormsModule, MatInputModule, AsyncPipe],
+    MatProgressSpinnerModule, MatAutocompleteModule, ReactiveFormsModule, MatInputModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,13 +35,13 @@ export class AppComponent implements OnInit {
   proceedings = signal<Proceeding[]>([]);
   selectedProceeding = signal<Proceeding | undefined>(undefined);
   proceedingControl = new FormControl<string | Proceeding>('');
-  filteredProceedings: Observable<Proceeding[]> | undefined;
+  filteredProceedings = signal<Proceeding[]>([]);
 
   //votings
   votings = signal<Voting[]>([]);
   selectedVoting = signal<Voting | undefined>(undefined);
   votingsControl = new FormControl<string | Voting>('');
-  filteredVotings: Observable<Voting[]> | undefined;
+  filteredVotings = signal<Voting[]>([]);
 
   //voting results
   votingResults = signal<Voting | undefined>(undefined);
@@ -56,6 +54,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading.set(true);
 
+    // Fetching terms
     this.termService.getTerms().subscribe({
       next: (terms) => {
         this.terms.set(terms);
@@ -67,10 +66,13 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych kadencji.");
       },
       complete: () => {
-        this.filteredProceedings = this._filterAutocomplete<Proceeding>(this.proceedingControl, this.proceedings());
         this.isLoading.set(false);
       }
     });
+
+
+    this._filterProceedingSubscription();
+    this._filterVotingSubscription();
   }
 
   onTermSelected($selectedTerm: number) {
@@ -87,6 +89,7 @@ export class AppComponent implements OnInit {
       next: (proceedings) => {
         if (proceedings.length != 0) {
           this.proceedings.set(proceedings);
+          this.filteredProceedings.set(proceedings);
         } else {
           console.error('No proceedings available for the selected term');
           this._openSnackBar("Nie ma dostępnych posiedzeń.");
@@ -97,7 +100,6 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych posiedzeń.");
       },
       complete: () => {
-        this.filteredProceedings = this._filterAutocomplete<Proceeding>(this.proceedingControl, this.proceedings());
         this.isLoading.set(false);
       }
     });
@@ -121,6 +123,7 @@ export class AppComponent implements OnInit {
       next: (votings) => {
         if (votings.length != 0) {
           this.votings.set(votings);
+          this.filteredVotings.set(votings);
           this.selectedVoting.set(undefined);
         } else {
           console.error('No votings available for the selected term and proceeding');
@@ -132,7 +135,6 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych głosowań.");
       },
       complete: () => {
-        this.filteredVotings = this._filterAutocomplete<Voting>(this.votingsControl, this.votings());
         this.isLoading.set(false);
       }
     });
@@ -146,7 +148,7 @@ export class AppComponent implements OnInit {
 
     this.isLoading.set(true);
     this.selectedVoting.set($event.option.value as Voting);
-    
+
     this.votingService.getVoting(this.selectedTerm()!, this.selectedProceeding()!.number, this.selectedVoting()!.votingNumber).subscribe({
       next: (votingResults) => {
         if (votingResults) {
@@ -178,18 +180,23 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private _filterAutocomplete<T extends Proceeding | Voting>(formControl: FormControl<string | null | T>, collection: T[]): Observable<T[]> {
-    return formControl.valueChanges.pipe(
-      startWith(undefined),
-      map(filteringInput => {
-        const input = typeof filteringInput === 'string' ? filteringInput : filteringInput?.title;
-        return input ? this._filterCollection(input, collection) : collection.slice();
-      }),
-    );
+  private _filterProceedingSubscription() {
+    this.proceedingControl.valueChanges.subscribe({
+      next: (filteringInput) => {
+        const input = filteringInput?.toString().toLowerCase();
+        const filtered = input ? this.proceedings().filter(option => option.title.toLowerCase().includes(input)) : this.proceedings().slice();
+        this.filteredProceedings.set(filtered);
+      }
+    });
   }
 
-  private _filterCollection<T extends Voting | Proceeding>(filteringInput: string, fullCollection: T[]): T[] {
-    const input = filteringInput.toLowerCase();
-    return fullCollection.filter(option => option.title.toLowerCase().includes(input));
+  private _filterVotingSubscription() {
+    this.votingsControl.valueChanges.subscribe({
+      next: (filteringInput) => {
+        const input = filteringInput?.toString().toLowerCase();
+        const filtered = input ? this.votings().filter(option => option.title.toLowerCase().includes(input)) : this.votings().slice();
+        this.filteredVotings.set(filtered);
+      }
+    });
   }
 }

@@ -35,7 +35,9 @@ export class VotingService {
   }
 
   getVoting(term: number, proceeding: number, votingNumber: number): Observable<Voting> {
+
     //https://api.sejm.gov.pl/sejm/term10/votings/2/1
+    console.log(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}/${votingNumber}`);
     return this.httpClient.get<VotingHttpResponse>(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}/${votingNumber}`)
       .pipe(map(response => ({
         title: response.title,
