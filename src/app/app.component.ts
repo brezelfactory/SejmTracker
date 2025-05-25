@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych kadencji.");
       },
       complete: () => {
-        this._filterProceedings();
+        this.filteredProceedings = this._filterAutocomplete<Proceeding>(this.proceedingControl, this.proceedings());
         this.isLoading.set(false);
       }
     });
@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych posiedzeń.");
       },
       complete: () => {
-        this._filterProceedings();
+        this.filteredProceedings = this._filterAutocomplete<Proceeding>(this.proceedingControl, this.proceedings());
         this.isLoading.set(false);
       }
     });
@@ -132,7 +132,7 @@ export class AppComponent implements OnInit {
         this._openSnackBar("Nie ma dostępnych głosowań.");
       },
       complete: () => {
-        this._filterVotings();
+        this.filteredVotings = this._filterAutocomplete<Voting>(this.votingsControl, this.votings());
         this.isLoading.set(false);
       }
     });
@@ -166,13 +166,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  //TODO: simplify
-  displayProceedings(proceeding: Proceeding): string {
-    return proceeding && proceeding.title ? proceeding.title : '';
-  }
-
-  displayVotings(voting: Voting): string {
-    return voting && voting.title ? voting.title : '';
+  display(item: Proceeding | Voting): string {
+    return item && item.title ? item.title : '';
   }
 
   private _openSnackBar(message: string) {
@@ -183,33 +178,18 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private _filterProceedings() {
-    this.filteredProceedings = this.proceedingControl.valueChanges.pipe(
+  private _filterAutocomplete<T extends Proceeding | Voting>(formControl: FormControl<string | null | T>, collection: T[]): Observable<T[]> {
+    return formControl.valueChanges.pipe(
       startWith(undefined),
       map(filteringInput => {
         const input = typeof filteringInput === 'string' ? filteringInput : filteringInput?.title;
-        return input ? this._filter(input) : this.proceedings().slice();
+        return input ? this._filterCollection(input, collection) : collection.slice();
       }),
     );
   }
 
-  private _filterVotings() {
-    this.filteredVotings = this.votingsControl.valueChanges.pipe(
-      startWith(undefined),
-      map(filteringInput => {
-        const input = typeof filteringInput === 'string' ? filteringInput : filteringInput?.title;
-        return input ? this._filterVoting(input) : this.votings().slice();
-      }),
-    );
-  }
-
-  private _filterVoting(filteringInput: string): Voting[] {
+  private _filterCollection<T extends Voting | Proceeding>(filteringInput: string, fullCollection: T[]): T[] {
     const input = filteringInput.toLowerCase();
-    return this.votings().filter(option => option.title.toLowerCase().includes(input));
-  }
-
-  private _filter(filteringInput: string): Proceeding[] {
-    const input = filteringInput.toLowerCase();
-    return this.proceedings().filter(option => option.title.toLowerCase().includes(input));
+    return fullCollection.filter(option => option.title.toLowerCase().includes(input));
   }
 }

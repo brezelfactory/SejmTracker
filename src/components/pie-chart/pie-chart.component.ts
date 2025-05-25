@@ -38,8 +38,8 @@ export class PieChartComponent implements OnInit {
         label: 'Wyniki głosowania',
         data: [this.votingResults().yes, this.votingResults().no, this.votingResults().abstain, this.votingResults().notParticipating],
         backgroundColor: [
-          'red',
           'green',
+          'red',
           'blue',
           'grey',
         ],
