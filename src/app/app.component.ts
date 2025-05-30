@@ -15,11 +15,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { VotingSelectorComponent } from "../components/voting-selector/voting-selector.component";
 
 @Component({
   selector: 'app-root',
   imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent, MatSelectModule, FormsModule, MatFormFieldModule, MatSnackBarModule,
-    MatProgressSpinnerModule, MatAutocompleteModule, ReactiveFormsModule, MatInputModule],
+    MatProgressSpinnerModule, MatAutocompleteModule, ReactiveFormsModule, MatInputModule, VotingSelectorComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
