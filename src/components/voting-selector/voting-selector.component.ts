@@ -15,21 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class VotingSelectorComponent implements OnInit, OnChanges {
 
-  constructor(private votingService: VotingService) { }
-
-  ngOnInit(): void {
-    this.queryVotings(10, 1);
-    this._filterVoting();
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if ((changes['term'] || changes['proceeding']) && this.term() && this.proceeding()) {
-      this.queryVotings(this.term(), this.proceeding().number);
-    }
-  }
-
-  //Inputs
+  // Inputs
   term = input.required<number>();
   proceeding = input.required<Proceeding>();
 
@@ -41,7 +27,24 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
   votings = signal<Voting[]>([]);
   filteredVotings = signal<Voting[]>([]);
 
-  display(item: Proceeding | Voting): string {
+  constructor(private votingService: VotingService) { }
+
+  ngOnInit(): void {
+    this._filterVoting();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('Changes detected in VotingSelectorComponent:', changes);
+    if (changes['term'] || changes['proceeding']) {
+      if (this.term() && this.proceeding()) {
+        this.queryVotings(this.term(), this.proceeding().number);
+      } else {
+        this._resetVotings();
+      }
+    }
+  }
+
+  display(item: Voting): string {
     return item && item.title ? item.title : '';
   }
 
@@ -76,5 +79,12 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
         this.filteredVotings.set(filtered);
       }
     });
+  }
+
+  private _resetVotings() {
+    this.votings.set([]);
+    this.filteredVotings.set([]);
+    this.selectedVoting.emit(undefined);
+    this.votingsControl.setValue('');
   }
 }
