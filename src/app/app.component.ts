@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { VotingService } from '../services/voting.service';
 import { Voting } from '../model/voting';
-import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { PieChartComponent } from '../components/pie-chart/pie-chart.component';
 import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TermService } from '../services/term.service';
@@ -16,16 +12,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { VotingSelectorComponent } from "../components/voting-selector/voting-selector.component";
+import { VotingResultsComponent } from "../components/voting-results/voting-results.component";
 
 @Component({
   selector: 'app-root',
-  imports: [MatTableModule, MatDividerModule, MatExpansionModule, PieChartComponent, MatSelectModule, FormsModule, MatFormFieldModule, MatSnackBarModule,
-    MatProgressSpinnerModule, MatAutocompleteModule, ReactiveFormsModule, MatInputModule, VotingSelectorComponent],
+  imports: [MatSelectModule, FormsModule, MatFormFieldModule, MatSnackBarModule,
+    MatProgressSpinnerModule, MatAutocompleteModule, ReactiveFormsModule, MatInputModule, VotingSelectorComponent, VotingResultsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
+
   constructor(private votingService: VotingService, private termService: TermService, private proceedingService: ProceedingService, private snackBar: MatSnackBar) { }
 
   //terms
@@ -43,11 +41,6 @@ export class AppComponent implements OnInit {
   selectedVoting = signal<Voting | undefined>(undefined);
   votingsControl = new FormControl<string | Voting>('');
   filteredVotings = signal<Voting[]>([]);
-
-  //voting results
-  votingResults = signal<Voting | undefined>(undefined);
-  showDetailedVotingResults = signal<boolean>(false);
-  detailedVotingResultsColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
 
   //loading state
   isLoading = signal<boolean>(false);
@@ -73,7 +66,6 @@ export class AppComponent implements OnInit {
 
 
     this._filterProceedingSubscription();
-    this._filterVotingSubscription();
   }
 
   onTermSelected($selectedTerm: number) {
@@ -141,32 +133,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onVotingSelected($event: MatAutocompleteSelectedEvent) {
-
-    if (this.selectedTerm() === undefined || this.selectedProceeding() === undefined) {
-      return;
-    }
-
-    this.isLoading.set(true);
-    this.selectedVoting.set($event.option.value as Voting);
-
-    this.votingService.getVoting(this.selectedTerm()!, this.selectedProceeding()!.number, this.selectedVoting()!.votingNumber).subscribe({
-      next: (votingResults) => {
-        if (votingResults) {
-          this.votingResults.set(votingResults);
-        } else {
-          console.error('No voting data available for the selected term, proceeding, and voting');
-          this._openSnackBar("Nie ma dostępnych danych głosowania.");
-        }
-      },
-      error: (error) => {
-        console.error('Error fetching voting data:', error);
-        this._openSnackBar("Nie ma dostępnych danych głosowania.");
-      },
-      complete: () => {
-        this.isLoading.set(false);
-      }
-    });
+  onVotingSelected($event: Voting | undefined) {
+    this.selectedVoting.set($event);
   }
 
   display(item: Proceeding | Voting): string {
@@ -187,16 +155,6 @@ export class AppComponent implements OnInit {
         const input = filteringInput?.toString().toLowerCase();
         const filtered = input ? this.proceedings().filter(option => option.title.toLowerCase().includes(input)) : this.proceedings().slice();
         this.filteredProceedings.set(filtered);
-      }
-    });
-  }
-
-  private _filterVotingSubscription() {
-    this.votingsControl.valueChanges.subscribe({
-      next: (filteringInput) => {
-        const input = filteringInput?.toString().toLowerCase();
-        const filtered = input ? this.votings().filter(option => option.title.toLowerCase().includes(input)) : this.votings().slice();
-        this.filteredVotings.set(filtered);
       }
     });
   }

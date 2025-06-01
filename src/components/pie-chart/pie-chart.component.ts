@@ -8,11 +8,7 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.scss'
 })
-export class PieChartComponent implements OnInit {
-
-  ngOnInit(): void {
-    this.updateChart();
-  }
+export class PieChartComponent{
 
   votingResults = input.required<{ yes: number, no: number, abstain: number, notParticipating: number}>();
   data = computed(() => this.updateChart());

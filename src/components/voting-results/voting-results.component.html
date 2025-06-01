@@ -1,0 +1,47 @@
+@if(this.votingResults() !== undefined) {
+<!-- Voting header -->
+<div class="app-voting-main-results">
+    <p>Tytuł: {{this.votingResults()?.title}}</p>
+    <p>Temat: {{this.votingResults()?.topic}}</p>
+    <p>Data: {{this.votingResults()?.date}}</p>
+</div>
+
+<!-- Pie chart -->
+<app-pie-chart [votingResults]="this.votingResults()!"></app-pie-chart>
+
+<!-- Voting details -->
+<mat-accordion>
+    <mat-expansion-panel (opened)="showDetailedVotingResults.set(true)" (closed)="showDetailedVotingResults.set(false)">
+        <mat-expansion-panel-header>
+            <mat-panel-title> <b>Szczegóły głosowania</b></mat-panel-title>
+            <p class="app-voting-results-description">
+                {{showDetailedVotingResults() ? 'Schowaj' : 'Pokaż'}}
+            </p>
+        </mat-expansion-panel-header>
+        <table mat-table [dataSource]="this.votingResults()!.votes" class="mat-elevation-z8">
+            <ng-container matColumnDef="last-name">
+                <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="first-name">
+                <th mat-header-cell *matHeaderCellDef> Imię </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="club">
+                <th mat-header-cell *matHeaderCellDef> Klub </th>
+                <td mat-cell *matCellDef="let element"> {{element.club}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="voted">
+                <th mat-header-cell *matHeaderCellDef> Głos </th>
+                <td mat-cell *matCellDef="let element"> {{element.voted}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="detailedVotingResultsColumns" class="app-table-header"></tr>
+            <tr mat-row *matRowDef="let row; columns: detailedVotingResultsColumns;"></tr>
+        </table>
+    </mat-expansion-panel>
+</mat-accordion>
+}
