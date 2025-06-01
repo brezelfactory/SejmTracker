@@ -8,24 +8,16 @@
     </mat-select>
   </mat-form-field>
 
-  @if (this.terms().length > 0 && this.selectedTerm() != undefined && this.filteredProceedings != undefined) {
-  <mat-form-field>
-    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej kadencji"}}</mat-label>
-    <input type="text" matInput [formControl]="proceedingControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="display" (optionSelected)="onProceedingSelected($event)">
-      @for (proceeding of this.filteredProceedings(); track proceeding) {
-      <mat-option [value]="proceeding">{{proceeding.title}}</mat-option>
-      }
-    </mat-autocomplete>
-  </mat-form-field>
-
-    @if (this.proceedings().length > 0 && this.selectedProceeding() != undefined) {
+  @if (this.terms().length > 0 && this.selectedTerm() != undefined) {
+  <app-proceeding-selector [term]="this.selectedTerm()" (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
+    
+  @if (this.selectedProceeding() != undefined) {
     <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!" (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
     }
   }
 </div>
 
-@if (this.proceedings().length > 0 && this.votings().length > 0 && this.selectedVoting() !=undefined) {
+@if (this.selectedVoting() !=undefined) {
   <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()" [voting]="this.selectedVoting()"></app-voting-results>
 }
 <div class="centering-container">
