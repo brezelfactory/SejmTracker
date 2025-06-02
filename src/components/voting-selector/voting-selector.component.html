@@ -1,9 +1,9 @@
-    <mat-form-field>
-      <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym posiedzeniu"}}</mat-label>
-      <input type="text" matInput [formControl]="votingsControl" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="display" (optionSelected)="onVotingSelected($event)">
-        @for (voting of this.filteredVotings(); track $index) {
-        <mat-option [value]="voting">{{voting.title}}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
+<mat-form-field>
+  <mat-label>{{this.votings().length > 0 ? "Wybierz głosowanie" : "Brak dostępnych głosowań na tym posiedzeniu"}}</mat-label>
+  <input type="text" matInput [formControl]="votingsControl" [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="display" (optionSelected)="onVotingSelected($event)">
+    @for (voting of this.filteredVotings(); track $index) {
+    <mat-option [value]="voting">{{voting.title}}</mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

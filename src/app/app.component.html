@@ -1,24 +1,20 @@
 <div class="app-selecting-term">
-  <mat-form-field>
-    <mat-label>{{this.terms().length > 0 ? "Wybierz kadencję" : "Brak dostępnych kadencji"}}</mat-label>
-    <mat-select [(value)]="selectedTerm" (valueChange)="onTermSelected($event)">
-      @for (term of this.terms(); track term) {
-      <mat-option [value]="term">{{term}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+  <app-term-selector (selectedTerm)="onTermSelected($event)"></app-term-selector>
 
-  @if (this.terms().length > 0 && this.selectedTerm() != undefined) {
-  <app-proceeding-selector [term]="this.selectedTerm()" (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
-    
-  @if (this.selectedProceeding() != undefined) {
-    <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!" (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
-    }
+  @if (this.selectedTerm()) {
+  <app-proceeding-selector [term]="this.selectedTerm()"
+    (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
+
+  @if (this.selectedTerm() && selectedProceeding()) {
+  <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
+    (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
   }
+}
 </div>
 
 @if (this.selectedVoting() !=undefined) {
-  <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()" [voting]="this.selectedVoting()"></app-voting-results>
+<app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
+  [voting]="this.selectedVoting()"></app-voting-results>
 }
 <div class="centering-container">
   @if(this.isLoading()) {
