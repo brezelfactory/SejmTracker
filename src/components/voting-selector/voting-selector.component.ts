@@ -34,7 +34,6 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('Changes detected in VotingSelectorComponent:', changes);
     if (changes['term'] || changes['proceeding']) {
       if (this.term() && this.proceeding()) {
         this.queryVotings(this.term(), this.proceeding().number);

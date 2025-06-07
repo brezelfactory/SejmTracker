@@ -30,7 +30,6 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('Changes detected in ProceedingSelectorComponent:', changes);
     if (changes['term']) {
       this.queryProceedings();
     }
