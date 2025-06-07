@@ -23,6 +23,7 @@ export class TermSelectorComponent implements OnInit {
     this.termService.getTerms().subscribe({
       next: (terms) => {
         this.terms.set(terms);
+        this.selectedTerm.emit(terms[0]);
       },
       error: (error) => {
         console.error('No terms available', error);
