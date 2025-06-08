@@ -2,7 +2,7 @@ import { Component, input, OnChanges, OnInit, output, signal, SimpleChanges } fr
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Proceeding } from '../../model/proceeding';
-import { Voting } from '../../model/voting';
+import { isVoting, Voting } from '../../model/voting';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VotingService } from '../../services/voting.service';
 import { MatInputModule } from '@angular/material/input';
@@ -73,7 +73,7 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
   private _filterVoting() {
     this.votingsControl.valueChanges.subscribe({
       next: (filteringInput) => {
-        const input = filteringInput?.toString().toLowerCase();
+        const input = isVoting(filteringInput) ? filteringInput.title.toLowerCase() : filteringInput?.toString().toLowerCase();
         const filtered = input ? this.votings().filter(option => option.title.toLowerCase().includes(input)) : this.votings().slice();
         this.filteredVotings.set(filtered);
       }

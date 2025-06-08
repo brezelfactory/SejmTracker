@@ -4,8 +4,10 @@ export interface Proceeding {
 }
 
 export function isProceeding(obj: any): obj is Proceeding {
-  return typeof obj === "object" &&
-        obj !== null &&
-        typeof obj.number === "number" &&
-        typeof obj.title === "string";
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    typeof obj.number === "number" &&
+    typeof obj.title === "string"
+  );
 }
