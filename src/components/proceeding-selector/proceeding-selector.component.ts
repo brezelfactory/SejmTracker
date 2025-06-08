@@ -1,13 +1,14 @@
 import { Component, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { Proceeding } from '../../model/proceeding';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { isProceeding, Proceeding } from '../../model/proceeding';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProceedingService } from '../../services/proceeding.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-proceeding-selector',
-  imports: [MatAutocompleteModule, ReactiveFormsModule, MatInputModule],
+  imports: [MatAutocompleteModule, ReactiveFormsModule, MatInputModule, FormsModule, MatFormFieldModule],
   templateUrl: './proceeding-selector.component.html',
   styleUrl: './proceeding-selector.component.scss'
 })
@@ -20,12 +21,12 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
 
   // Local Variables
   proceedings = signal<Proceeding[]>([]);
-  proceedingControl = new FormControl<string | Proceeding>('');
+  proceedingControl = new FormControl<Proceeding | string>('');
   filteredProceedings = signal<Proceeding[]>([]);
 
   constructor(private proceedingService: ProceedingService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._filterProceeding();
   }
 
@@ -63,8 +64,6 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
   }
 
   onProceedingSelected($event: MatAutocompleteSelectedEvent) {
-    // TODO: Clear previous selections
-
     this.selectedProceeding.emit($event.option.value as Proceeding);
   }
 
@@ -72,11 +71,12 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
     return item && item.title ? item.title : '';
   }
 
-    private _filterProceeding() {
+  private _filterProceeding() {
     this.proceedingControl.valueChanges.subscribe({
       next: (filteringInput) => {
-        const input = filteringInput?.toString().toLowerCase();
-        const filtered = input ? this.proceedings().filter(option => option.title.toLowerCase().includes(input)) : this.proceedings().slice();
+
+        const input = isProceeding(filteringInput) ? filteringInput.title.toLowerCase() : filteringInput?.toString().toLowerCase();
+        const filtered = input ? this.proceedings().filter(proceeding => proceeding.title.toLowerCase().includes(input)) : this.proceedings();       
         this.filteredProceedings.set(filtered);
       }
     });
