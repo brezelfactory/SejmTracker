@@ -1,4 +1,4 @@
-import { Component, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { isProceeding, Proceeding } from '../../model/proceeding';
@@ -23,6 +23,19 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
   proceedings = signal<Proceeding[]>([]);
   proceedingControl = new FormControl<Proceeding | string>('');
   filteredProceedings = signal<Proceeding[]>([]);
+  isLoading = signal<boolean>(false);
+  label = computed(() => {
+    if (this.isLoading()) {
+      return 'Ładowanie posiedzeń...';
+    }
+    else if (this.proceedings().length <= 0) {
+      return "Brak dostępnych posiedzeń w tej kadencji";
+    }
+    else {
+      return "Wybierz posiedzenie";
+    }
+
+  });
 
   constructor(private proceedingService: ProceedingService) { }
 
@@ -42,7 +55,9 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
     }
 
     // Getting proceedings for the selected term
-    //this.isLoading.set(true);
+
+    this.proceedingControl.setValue('');
+    this.isLoading.set(true);
     this.proceedingService.getProceedings(this.term()!).subscribe({
       next: (proceedings) => {
         if (proceedings.length != 0) {
@@ -56,10 +71,9 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
       error: (error) => {
         console.error('Error fetching proceedings:', error);
         //this._openSnackBar("Nie ma dostępnych posiedzeń.");
-      },
-      complete: () => {
-        //this.isLoading.set(false);
       }
+    }).add(() => {
+      this.isLoading.set(false);
     });
   }
 
@@ -75,8 +89,12 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
     this.proceedingControl.valueChanges.subscribe({
       next: (filteringInput) => {
 
-        const input = isProceeding(filteringInput) ? filteringInput.title.toLowerCase() : filteringInput?.toString().toLowerCase();
-        const filtered = input ? this.proceedings().filter(proceeding => proceeding.title.toLowerCase().includes(input)) : this.proceedings();       
+        if (filteringInput == '') {
+          this.selectedProceeding.emit(undefined);
+        }
+
+        const input = isProceeding(filteringInput) ? filteringInput.title : filteringInput?.toString();
+        const filtered = input ? this.proceedings().filter(proceeding => proceeding.title.toLowerCase().includes(input.toLowerCase())) : this.proceedings();
         this.filteredProceedings.set(filtered);
       }
     });

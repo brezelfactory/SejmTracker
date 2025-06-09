@@ -1,6 +1,6 @@
   <mat-form-field>
-    <mat-label>{{this.proceedings().length > 0 ? "Wybierz posiedzenie" : "Brak dostępnych posiedzeń w tej kadencji"}}</mat-label>
-    <input type="text" matInput [formControl]="proceedingControl" [matAutocomplete]="auto">
+    <mat-label>{{this.label()}}</mat-label>
+    <input type="text" matInput [formControl]="proceedingControl" [matAutocomplete]="auto" [disabled]="isLoading()">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="display" (optionSelected)="onProceedingSelected($event)">
       @for (proceeding of this.filteredProceedings(); track proceeding) {
       <mat-option [value]="proceeding">{{proceeding.title}}</mat-option>
