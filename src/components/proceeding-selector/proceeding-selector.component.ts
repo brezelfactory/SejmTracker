@@ -24,7 +24,7 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
   proceedingControl = new FormControl<Proceeding | string>('');
   filteredProceedings = signal<Proceeding[]>([]);
   isLoading = signal<boolean>(false);
-  label = computed(() => {
+  statusLabel = computed(() => {
     if (this.isLoading()) {
       return 'Ładowanie posiedzeń...';
     }
@@ -34,7 +34,6 @@ export class ProceedingSelectorComponent implements OnInit, OnChanges {
     else {
       return "Wybierz posiedzenie";
     }
-
   });
 
   constructor(private proceedingService: ProceedingService) { }
