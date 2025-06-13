@@ -86,6 +86,11 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
   private _filterVoting() {
     this.votingsControl.valueChanges.subscribe({
       next: (filteringInput) => {
+
+        if (filteringInput == '') {
+          this.selectedVoting.emit(undefined);
+        }
+
         const input = isVoting(filteringInput) ? filteringInput.title.toLowerCase() : filteringInput?.toString().toLowerCase();
         const filtered = input ? this.votings().filter(option => option.title.toLowerCase().includes(input)) : this.votings().slice();
         this.filteredVotings.set(filtered);
