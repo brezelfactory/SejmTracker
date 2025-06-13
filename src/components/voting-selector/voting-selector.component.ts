@@ -1,4 +1,4 @@
-import { Component, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Proceeding } from '../../model/proceeding';
@@ -26,7 +26,18 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
   votingsControl = new FormControl<string | Voting>('');
   votings = signal<Voting[]>([]);
   filteredVotings = signal<Voting[]>([]);
-
+  isLoading = signal<boolean>(false);
+  statusLabel = computed(() => {
+    if (this.isLoading()) {
+      return 'Ładowanie głosowań...';
+    }
+    else if (this.votings().length <= 0) {
+      return "Brak dostępnych głosowań na tym posiedzeniu";
+    }
+    else {
+      return "Wybierz głosowanie";
+    }
+  });
   constructor(private votingService: VotingService) { }
 
   ngOnInit(): void {
@@ -52,6 +63,8 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
   }
 
   private queryVotings(term: number, proceeding: number): void {
+    this.votingsControl.setValue('');
+    this.isLoading.set(true);
     this.votingService.getVotings(term, proceeding).subscribe({
       next: (votings) => {
         if (votings.length != 0) {
@@ -65,9 +78,9 @@ export class VotingSelectorComponent implements OnInit, OnChanges {
       error: (error) => {
         console.error('Error fetching votings:', error);
       },
-      complete: () => {
-      }
-    });
+    }).add(() => {
+      this.isLoading.set(false);
+    });;
   }
 
   private _filterVoting() {
