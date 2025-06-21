@@ -1,20 +1,5 @@
-.app-table-header {
-  background-color: var(--primary-color);
-  color: white;
-  height: 30px;
-}
-
-.app-voting-results-description {
-  color: grey;
-  margin-right: 12px;
-}
-
-.app-selecting-term {
-  display: flex;
-  flex-direction: column;
-}
-
-.centering-container {
-  display: flex;
-  justify-content: center;
+.app-header {
+  height: 50px;
+  padding: 0 20px;
+  font-size: 36px;
 }

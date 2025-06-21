@@ -2,11 +2,11 @@ import { Component, signal } from '@angular/core';
 import { Proceeding } from '../../model/proceeding';
 import { Voting } from '../../model/voting';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { TermSelectorComponent } from "../term-selector/term-selector.component";
-import { ProceedingSelectorComponent } from "../proceeding-selector/proceeding-selector.component";
-import { VotingSelectorComponent } from "../voting-selector/voting-selector.component";
-import { VotingResultsComponent } from "../voting-results/voting-results.component";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { VotingSelectorComponent } from '../../components/voting-selector/voting-selector.component';
+import { VotingResultsComponent } from '../../components/voting-results/voting-results.component';
+import { ProceedingSelectorComponent } from '../../components/proceeding-selector/proceeding-selector.component';
+import { TermSelectorComponent } from '../../components/term-selector/term-selector.component';
 
 @Component({
   selector: 'app-home',
