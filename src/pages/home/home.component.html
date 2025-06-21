@@ -13,8 +13,13 @@
 </div>
 
 @if (this.selectedVoting() !=undefined) {
-<app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
-    [voting]="this.selectedVoting()"></app-voting-results>
+    <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
+        [voting]="this.selectedVoting()">
+    </app-voting-results>
+    <a [routerLink]="this.detailsUrl">
+        <!-- <mat-icon>info</mat-icon> -->
+        <span>Szczegóły głosowania tutaj!</span>
+    </a>
 }
 <div class="home-centering-container">
     @if(this.isLoading()) {
