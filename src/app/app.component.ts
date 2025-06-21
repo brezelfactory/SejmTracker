@@ -1,64 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
-import { Voting } from '../model/voting';
-import { Proceeding } from '../model/proceeding';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { VotingSelectorComponent } from "../components/voting-selector/voting-selector.component";
-import { VotingResultsComponent } from "../components/voting-results/voting-results.component";
-import { ProceedingSelectorComponent } from "../components/proceeding-selector/proceeding-selector.component";
-import { TermSelectorComponent } from "../components/term-selector/term-selector.component";
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [MatSnackBarModule, MatProgressSpinnerModule, VotingSelectorComponent, VotingResultsComponent, ProceedingSelectorComponent, TermSelectorComponent],
+  imports: [RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  constructor(private snackBar: MatSnackBar) { }
-
-  //terms
-  selectedTerm = signal<number | undefined>(undefined);
-
-  //proceedings
-  selectedProceeding = signal<Proceeding | undefined>(undefined);
-
-  //votings
-  selectedVoting = signal<Voting | undefined>(undefined);
-
-  //loading state
-  isLoading = signal<boolean>(false);
-
-  ngOnInit(): void {
-    //this.isLoading.set(true);
-  }
-
-  onTermSelected($selectedTerm: number | undefined) {
-    // Clear previous selections
-    this.selectedProceeding.set(undefined);
-    this.selectedVoting.set(undefined);
-
-    this.selectedTerm.set($selectedTerm);
-  }
-
-  onProceedingSelected($event: Proceeding | undefined) {
-    // Clear previous selections
-    this.selectedVoting.set(undefined);
-
-    this.selectedProceeding.set($event);
-  }
-
-  onVotingSelected($event: Voting | undefined) {
-    this.selectedVoting.set($event);
-  }
-
-  private _openSnackBar(message: string) {
-    this.snackBar.open(message, "Zamknij", {
-      duration: 2000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
-  }
 }

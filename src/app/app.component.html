@@ -1,24 +1,4 @@
-<div class="app-selecting-term">
-  <app-term-selector (selectedTerm)="onTermSelected($event)"></app-term-selector>
-
-  @if (this.selectedTerm()) {
-  <app-proceeding-selector [term]="this.selectedTerm()"
-    (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
-
-  @if (this.selectedTerm() && selectedProceeding()) {
-  <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
-    (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
-  }
-}
-</div>
-
-@if (this.selectedVoting() !=undefined) {
-<app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
-  [voting]="this.selectedVoting()"></app-voting-results>
-}
-<div class="centering-container">
-  @if(this.isLoading()) {
-  <mat-progress-spinner mode="indeterminate">
-  </mat-progress-spinner>
-  }
-</div>
+<header>Sejm Traker</header>
+<body>
+  <router-outlet></router-outlet>
+</body>
