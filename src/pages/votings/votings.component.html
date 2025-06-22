@@ -5,10 +5,10 @@
     <app-proceeding-selector [term]="this.selectedTerm()"
         (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
 
-    @if (this.selectedTerm() && selectedProceeding()) {
-    <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
-        (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
-    }
+        @if (this.selectedTerm() && selectedProceeding()) {
+        <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
+            (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
+        }
     }
 </div>
 

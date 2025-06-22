@@ -12,10 +12,10 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-home',
   imports: [MatSnackBarModule, MatProgressSpinnerModule, VotingSelectorComponent, VotingResultsComponent, ProceedingSelectorComponent, TermSelectorComponent, RouterModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  templateUrl: './votings.component.html',
+  styleUrl: './votings.component.scss'
 })
-export class HomeComponent {
+export class VotingsComponent {
   constructor(private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {

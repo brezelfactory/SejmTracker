@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from '../pages/home/home.component';
+import { VotingsComponent } from '../pages/votings/votings.component';
 import { VotingDetailsComponent } from '../pages/voting-details/voting-details.component';
 
 
@@ -9,12 +9,12 @@ export const votingDetailsRoute = `details/:id`
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
+        component: VotingsComponent,
         title: 'Stronga główna',
     },
     {
         path: homeRoute,
-        component: HomeComponent,
+        component: VotingsComponent,
         title: 'Stronga główna',
     },
     {
