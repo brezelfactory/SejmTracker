@@ -16,8 +16,7 @@
     <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
         [voting]="this.selectedVoting()">
     </app-voting-results>
-    <a [routerLink]="this.detailsUrl">
-        <!-- <mat-icon>info</mat-icon> -->
+    <a [routerLink]="['/details', this.selectedVoting()?.votingNumber]">
         <span>Szczegóły głosowania tutaj!</span>
     </a>
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-voting-details',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './voting-details.component.scss'
 })
 export class VotingDetailsComponent {
+  votingId = 0;
 
+  constructor(route: ActivatedRoute) {
+    this.votingId = Number(route.snapshot.paramMap.get('id'));
+  }
 }

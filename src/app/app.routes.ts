@@ -4,7 +4,7 @@ import { VotingDetailsComponent } from '../pages/voting-details/voting-details.c
 
 
 export const homeRoute = `home`
-export const detailsRoute = `details`
+export const votingDetailsRoute = `details/:id`
 
 export const routes: Routes = [
     {
@@ -18,7 +18,7 @@ export const routes: Routes = [
         title: 'Stronga główna',
     },
     {
-        path: detailsRoute,
+        path: votingDetailsRoute,
         component: VotingDetailsComponent,
         title: 'Szczegóły głosowania',
     }
