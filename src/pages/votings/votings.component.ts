@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Proceeding } from '../../model/proceeding';
-import { Voting } from '../../model/voting';
+import { Voting, VotingResults as VotingDetails } from '../../model/voting';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { VotingSelectorComponent } from '../../components/voting-selector/voting-selector.component';
@@ -30,6 +30,7 @@ export class VotingsComponent {
 
   //votings
   selectedVoting = signal<Voting | undefined>(undefined);
+  votingDetails = signal<VotingDetails | undefined>(undefined);
 
   //loading state
   isLoading = signal<boolean>(false);
@@ -53,6 +54,10 @@ export class VotingsComponent {
     this.selectedVoting.set($event);
   }
 
+  onVotingsResultsUpdated($event: VotingDetails | undefined) {
+    this.votingDetails.set($event);
+  }
+  
   private _openSnackBar(message: string) {
     this.snackBar.open(message, "Zamknij", {
       duration: 2000,

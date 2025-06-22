@@ -10,6 +10,18 @@ export interface Voting {
     no: number;
     abstain: number
     notParticipating: number;
+}
+
+export interface VotingResults {
+    title: string;
+    topic: string
+    date: string;
+    votingNumber: number;
+    totalVoted: number;
+    yes: number;
+    no: number;
+    abstain: number
+    notParticipating: number;
     votes: ParlamentMember[];
 }
 

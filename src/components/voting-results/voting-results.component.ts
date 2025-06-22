@@ -1,5 +1,5 @@
-import { Component, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
-import { Voting } from '../../model/voting';
+import { Component, input, model, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
+import { Voting, VotingResults } from '../../model/voting';
 import { Proceeding } from '../../model/proceeding';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -32,9 +32,7 @@ export class VotingResultsComponent implements OnInit, OnChanges {
   term = input.required<number | undefined>();
 
   //voting results
-  votingResults = signal<Voting | undefined>(undefined);
-  showDetailedVotingResults = signal<boolean>(false);
-  detailedVotingResultsColumns: string[] = ['first-name', 'last-name', 'club', 'voted'];
+  votingResults = model<VotingResults | undefined>();
 
   private _queryVotingResults() {
     if (this.voting() === undefined || this.term() === undefined || this.proceeding() === undefined) {
