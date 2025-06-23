@@ -7,7 +7,7 @@ import { ParlamentMembersComponent } from '../pages/parlament-members/parlament-
 
 export const homeRoute = `home`
 export const votingsRoute = `votings`
-export const parlamentMembersRoute = `parliament-members`
+export const parlamentMembersRoute = `parlament-members`
 export const votingDetailsRoute = `details/:id`
 
 export const routes: Routes = [
