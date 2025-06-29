@@ -1,21 +1,20 @@
-<header class="app-header">
-  <mat-icon>fingerprint</mat-icon>
-    Sejm Tracker
-  <div class="app-header-content">
-  <mat-toolbar>
-    <div class="app-navigation-buttons">
-      <button matButton routerLink="/home">Strona główna</button>
-      <button matButton routerLink="/votings">Głosowania</button>
-      <button matButton routerLink="/parlament-members">Posłowie</button>
-    </div>
-    <span class="app-spacer"></span>
-    <button matIconButton>
+<mat-toolbar class="app-toolbar">
+
+  <div class="app-title">
+    <mat-icon>fingerprint</mat-icon>
+    <strong>Sejm</strong>Tracker
+  </div>
+
+  <span class="app-spacer"></span>
+
+  <span class="app-navigation-buttons">
+    <button mat-raised-button routerLink="/home">Strona główna</button>
+    <button mat-raised-button routerLink="/votings">Głosowania</button>
+    <button mat-raised-button routerLink="/parlament-members">Posłowie</button>
+    <button mat-flat-button>
       <mat-icon>face</mat-icon> Zaloguj się
     </button>
-  </mat-toolbar>
-  </div>
-</header>
+  </span>
+</mat-toolbar>
 
-<body>
-  <router-outlet/>
-</body>
+<router-outlet />

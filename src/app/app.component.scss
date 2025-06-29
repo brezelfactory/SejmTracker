@@ -1,9 +1,24 @@
-.app-header {
-  height: 100px;
-  padding: 0 20px;
-  font-size: 28px;
+.app-toolbar {
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+}
+
+.app-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
 }
 
 .app-spacer {
   flex: 1 1 auto;
+}
+
+.app-navigation-buttons {
+  display: flex;
+  gap: 20px;
 }

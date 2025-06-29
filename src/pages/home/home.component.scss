@@ -1,3 +1,22 @@
-.example-spacer {
-  flex: 1 1 auto;
+.home-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #333;
+  font-size: 16px;
+}
+
+.home-header-text {
+  max-width: 50%;
+}
+
+.home-header-text-h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.home-header-text-h2 {
+  font-size: 14px;
+  font-style: italic;
 }
