@@ -1,14 +1,16 @@
-import { Component, input, model, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, input, model, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Voting, VotingResults } from '../../model/voting';
 import { Proceeding } from '../../model/proceeding';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PieChartComponent } from '../pie-chart/pie-chart.component';
 import { VotingService } from '../../services/voting.service';
+import { DatePipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-voting-results',
-  imports: [MatTableModule, MatExpansionModule, PieChartComponent],
+  imports: [MatTableModule, MatExpansionModule, PieChartComponent, DatePipe, MatCardModule],
   templateUrl: './voting-results.component.html',
   styleUrl: './voting-results.component.scss'
 })
@@ -26,13 +28,19 @@ export class VotingResultsComponent implements OnInit, OnChanges {
     }
   }
 
-  // Inputs
+  //inputs
   voting = input.required<Voting | undefined>();
   proceeding = input.required<Proceeding | undefined>();
   term = input.required<number | undefined>();
 
   //voting results
   votingResults = model<VotingResults | undefined>();
+  isAccepted = computed(() => {
+    if (this.votingResults() === undefined) {
+      return undefined;
+    }
+    return this.votingResults()!.yes > this.votingResults()!.no;
+  });
 
   private _queryVotingResults() {
     if (this.voting() === undefined || this.term() === undefined || this.proceeding() === undefined) {

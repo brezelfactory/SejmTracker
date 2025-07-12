@@ -1,11 +1,18 @@
 @if(this.votingResults() !== undefined) {
 <!-- Voting header -->
-<div class="app-voting-main-results">
-    <p>Tytuł: {{this.votingResults()?.title}}</p>
-    <p>Temat: {{this.votingResults()?.topic}}</p>
-    <p>Data: {{this.votingResults()?.date}}</p>
-</div>
-
-<!-- Pie chart -->
-<app-pie-chart [votingResults]="this.votingResults()!"></app-pie-chart>
+<mat-card class="voting-results-card" appearance="outlined" >
+    <mat-card-header class="voting-results-header">
+        <mat-card-title>Wyniki głosowania</mat-card-title>
+        <mat-card-title-group class="voting-results-title-group">
+            <p><strong>Tytuł:</strong> {{this.votingResults()?.title}}</p>
+            <p><strong>Temat:</strong> {{this.votingResults()?.topic}}</p>
+            <p><strong>Data:</strong> {{this.votingResults()?.date | date:'dd.mm.YYYY'}}</p>
+            <p><strong>Wyniki:</strong> {{this.isAccepted() ? "Przyjęto" : "Odrzucono"}}</p>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <!-- Pie chart -->
+        <app-pie-chart [votingResults]="this.votingResults()!"></app-pie-chart>
+    </mat-card-content>
+</mat-card>
 }
