@@ -29,7 +29,6 @@ export class VotingsComponent {
 
   //votings
   selectedVoting = signal<Voting | undefined>(undefined);
-  votingDetails = signal<VotingDetails | undefined>(undefined);
 
   //loading state
   isLoading = signal<boolean>(false);
@@ -51,10 +50,6 @@ export class VotingsComponent {
 
   onVotingSelected($event: Voting | undefined) {
     this.selectedVoting.set($event);
-  }
-
-  onVotingsResultsUpdated($event: VotingDetails | undefined) {
-    this.votingDetails.set($event);
   }
   
   private _openSnackBar(message: string) {

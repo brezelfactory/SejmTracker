@@ -13,9 +13,7 @@
 </div>
 
 @if (this.selectedVoting() !=undefined) {
-    <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
-        [voting]="this.selectedVoting()" (votingResultsChange)="this.onVotingsResultsUpdated($event)">
-    </app-voting-results>
+    <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()" [voting]="this.selectedVoting()"/>
 }
 <div class="home-centering-container">
     @if(this.isLoading()) {
