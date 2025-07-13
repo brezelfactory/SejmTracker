@@ -16,9 +16,6 @@
     <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()"
         [voting]="this.selectedVoting()" (votingResultsChange)="this.onVotingsResultsUpdated($event)">
     </app-voting-results>
-    <a [routerLink]="['/details', this.selectedVoting()?.votingNumber]" [state]="this.votingDetails()">
-        <span>Szczegóły głosowania tutaj!</span>
-    </a>
 }
 <div class="home-centering-container">
     @if(this.isLoading()) {

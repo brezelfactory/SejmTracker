@@ -7,10 +7,11 @@ import { PieChartComponent } from '../pie-chart/pie-chart.component';
 import { VotingService } from '../../services/voting.service';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-voting-results',
-  imports: [MatTableModule, MatExpansionModule, PieChartComponent, DatePipe, MatCardModule],
+  imports: [MatTableModule, MatExpansionModule, PieChartComponent, DatePipe, MatCardModule, RouterModule],
   templateUrl: './voting-results.component.html',
   styleUrl: './voting-results.component.scss'
 })
@@ -23,7 +24,6 @@ export class VotingResultsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['voting'] || changes['term'] || changes['proceeding']) {
-      console.log('Changes detected in VotingResultsComponent:', changes);
       this._queryVotingResults();
     }
   }

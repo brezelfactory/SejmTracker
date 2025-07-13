@@ -7,11 +7,10 @@ import { VotingSelectorComponent } from '../../components/voting-selector/voting
 import { VotingResultsComponent } from '../../components/voting-results/voting-results.component';
 import { ProceedingSelectorComponent } from '../../components/proceeding-selector/proceeding-selector.component';
 import { TermSelectorComponent } from '../../components/term-selector/term-selector.component';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [MatSnackBarModule, MatProgressSpinnerModule, VotingSelectorComponent, VotingResultsComponent, ProceedingSelectorComponent, TermSelectorComponent, RouterModule],
+  imports: [MatSnackBarModule, MatProgressSpinnerModule, VotingSelectorComponent, VotingResultsComponent, ProceedingSelectorComponent, TermSelectorComponent],
   templateUrl: './votings.component.html',
   styleUrl: './votings.component.scss'
 })
