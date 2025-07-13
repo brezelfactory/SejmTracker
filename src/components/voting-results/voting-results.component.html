@@ -1,5 +1,4 @@
 @if(this.votingResults() !== undefined) {
-<!-- Voting header -->
 <mat-card class="voting-results-card" appearance="outlined">
     <mat-card-header class="voting-results-header">
         <mat-card-title>Wyniki głosowania</mat-card-title>
@@ -11,9 +10,8 @@
         </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
-        <!-- Pie chart -->
         <app-pie-chart [votingResults]="this.votingResults()!"></app-pie-chart>
-        <a [routerLink]="['/details', this.voting()?.votingNumber]" [state]="this.votingResults()">
+        <a class="voting-results-link" [routerLink]="['/details', this.voting()?.votingNumber]" [state]="this.votingResults()">
             <span>Szczegóły głosowania tutaj!</span>
         </a>
     </mat-card-content>

@@ -19,3 +19,10 @@ mat-card-title {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
+.voting-results-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
