@@ -1,6 +1,5 @@
 import { Component, computed, input, model, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { Voting, VotingResults } from '../../model/voting';
-import { Proceeding } from '../../model/proceeding';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PieChartComponent } from '../pie-chart/pie-chart.component';
@@ -30,8 +29,6 @@ export class VotingResultsComponent implements OnInit, OnChanges {
 
   //inputs
   voting = input.required<Voting | undefined>();
-  proceeding = input.required<Proceeding | undefined>();
-  term = input.required<number | undefined>();
 
   //voting results
   votingResults = signal<VotingResults | undefined>(undefined);
@@ -43,12 +40,12 @@ export class VotingResultsComponent implements OnInit, OnChanges {
   });
 
   private _queryVotingResults() {
-    if (this.voting() === undefined || this.term() === undefined || this.proceeding() === undefined) {
+    if (this.voting() === undefined) {
       this.votingResults.set(undefined);
       return;
     }
 
-    this.votingService.getVoting(this.term()!, this.proceeding()!.number, this.voting()!.votingNumber).subscribe({
+    this.votingService.getVotingResults(this.voting()!.term, this.voting()!.proceeding, this.voting()!.votingNumber).subscribe({
       next: (votingResults) => {
         if (votingResults) {
           this.votingResults.set(votingResults);

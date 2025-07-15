@@ -1,28 +1,25 @@
 import { ParlamentMember } from "./parlament-member";
 
 export interface Voting {
-    title: string;
-    topic: string
-    date: string;
-    votingNumber: number;
-    totalVoted: number;
-    yes: number;
-    no: number;
-    abstain: number
-    notParticipating: number;
+  title: string;
+  topic: string
+  date: string;
+  votingNumber: number;
+  term: number;
+  proceeding: number;
 }
 
 export interface VotingResults {
-    title: string;
-    topic: string
-    date: string;
-    votingNumber: number;
-    totalVoted: number;
-    yes: number;
-    no: number;
-    abstain: number
-    notParticipating: number;
-    votes: ParlamentMember[];
+  title: string;
+  topic: string
+  date: string;
+  votingNumber: number;
+  totalVoted: number;
+  yes: number;
+  no: number;
+  abstain: number
+  notParticipating: number;
+  votes: ParlamentMember[];
 }
 
 export function isVoting(input: any): input is Voting {

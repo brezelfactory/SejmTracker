@@ -1,24 +1,5 @@
-<mat-card class="global-mat-card" appearance="outlined">
-    <mat-card-content>
-        <app-term-selector (selectedTerm)="onTermSelected($event)"></app-term-selector>
-
-        @if (this.selectedTerm()) {
-        <app-proceeding-selector [term]="this.selectedTerm()"
-            (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
-
-            @if (this.selectedTerm() && selectedProceeding()) {
-            <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
-                (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
-            }
-        }
-    </mat-card-content>
-</mat-card>
+<app-voting-selection (selectedVoting)="onVotingSelected($event)"></app-voting-selection>
 
 @if (this.selectedVoting() !=undefined) {
-    <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()" [voting]="this.selectedVoting()"/>
+    <app-voting-results [voting]="this.selectedVoting()"/>
 }
-<div class=".home-centering-container">
-    @if(this.isLoading()) {
-    <mat-progress-spinner mode="indeterminate" />
-    }
-</div>

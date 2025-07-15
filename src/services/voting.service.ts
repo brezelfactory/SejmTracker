@@ -20,15 +20,12 @@ export class VotingService {
         topic: response.topic,
         date: response.date,
         votingNumber: response.votingNumber,
-        totalVoted: response.totalVoted,
-        yes: response.yes,
-        no: response.no,
-        abstain: response.abstain,
-        notParticipating: response.notParticipating
+        term: term,
+        proceeding: proceeding,
       })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())));
   }
 
-  getVoting(term: number, proceeding: number, votingNumber: number): Observable<VotingResults> {
+  getVotingResults(term: number, proceeding: number, votingNumber: number): Observable<VotingResults> {
 
     //https://api.sejm.gov.pl/sejm/term10/votings/2/1
     console.log(`${this.baseUrl}/sejm/term${term}/votings/${proceeding}/${votingNumber}`);
