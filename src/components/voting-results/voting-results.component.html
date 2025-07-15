@@ -1,7 +1,7 @@
 @if(this.votingResults() !== undefined) {
 <mat-card class="global-mat-card" appearance="outlined">
     <mat-card-header class="voting-results-header">
-        <mat-card-title>Wyniki głosowania</mat-card-title>
+        <mat-card-title class="global-mat-card-title">Wyniki głosowania</mat-card-title>
         <mat-card-title-group class="voting-results-title-group">
             <span><strong>Tytuł:</strong> {{this.votingResults()?.title}}</span>
             <span><strong>Temat:</strong> {{this.votingResults()?.topic}}</span>
