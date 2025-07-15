@@ -1,21 +1,23 @@
-<div class="home-selecting-term">
-    <app-term-selector (selectedTerm)="onTermSelected($event)"></app-term-selector>
+<mat-card class="global-mat-card" appearance="outlined">
+    <mat-card-content>
+        <app-term-selector (selectedTerm)="onTermSelected($event)"></app-term-selector>
 
-    @if (this.selectedTerm()) {
-    <app-proceeding-selector [term]="this.selectedTerm()"
-        (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
+        @if (this.selectedTerm()) {
+        <app-proceeding-selector [term]="this.selectedTerm()"
+            (selectedProceeding)="onProceedingSelected($event)"></app-proceeding-selector>
 
-        @if (this.selectedTerm() && selectedProceeding()) {
-        <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
-            (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
+            @if (this.selectedTerm() && selectedProceeding()) {
+            <app-voting-selector [term]="this.selectedTerm()!" [proceeding]="this.selectedProceeding()!"
+                (selectedVoting)="onVotingSelected($event)"></app-voting-selector>
+            }
         }
-    }
-</div>
+    </mat-card-content>
+</mat-card>
 
 @if (this.selectedVoting() !=undefined) {
     <app-voting-results [term]="this.selectedTerm()" [proceeding]="this.selectedProceeding()" [voting]="this.selectedVoting()"/>
 }
-<div class="home-centering-container">
+<div class=".home-centering-container">
     @if(this.isLoading()) {
     <mat-progress-spinner mode="indeterminate" />
     }
