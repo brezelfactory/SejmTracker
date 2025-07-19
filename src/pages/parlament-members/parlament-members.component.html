@@ -1,1 +1,5 @@
-<p>parlament-members works!</p>
+<app-term-selector  (selectedTerm)="onTermSelected($event)" />
+
+@if(this.selectedTerm() !== undefined) {
+    <app-parlament-members-table [selectedTerm]="this.selectedTerm()!" />
+}

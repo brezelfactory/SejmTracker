@@ -1,0 +1,29 @@
+<table mat-table [dataSource]="this.parlamentMembers()" class="mat-elevation-z8">
+    <ng-container matColumnDef="first-name">
+        <th mat-header-cell *matHeaderCellDef> Imię </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="last-name">
+        <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="club">
+        <th mat-header-cell *matHeaderCellDef> Partia </th>
+        <td mat-cell *matCellDef="let element"> {{element.club}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="district-name">
+        <th mat-header-cell *matHeaderCellDef> Miejscowość </th>
+        <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="profession">
+        <th mat-header-cell *matHeaderCellDef> Zawód </th>
+        <td mat-cell *matCellDef="let element"> {{element.profession}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

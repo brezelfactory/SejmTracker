@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Voting, VotingResults } from '../model/voting';
-import { ParlamentMember } from '../model/parlament-member';
+import { ParlamentMemberVoting } from '../model/parlament-member-voting';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class VotingService {
           lastName: vote.lastName,
           club: vote.club,
           voted: vote.vote,
-        } as ParlamentMember))
+        } as ParlamentMemberVoting))
       })));
   }
 }

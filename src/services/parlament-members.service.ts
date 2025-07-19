@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { ParlamentMemberDetails } from '../model/parlament-member-details';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ParlamentMembersService {
 
   private baseUrl = 'https://api.sejm.gov.pl/sejm/term';
 
-  getMembers(term: number): Observable<MemberHttpResponse[]> {
+  getMembers(term: number): Observable<ParlamentMemberDetails[]> {
     return this.httpClient.get<MemberHttpResponse[]>(`${this.baseUrl}${term}/MP`).pipe(map(members => members.map(member => ({
       id: member.id,
       active: member.active,

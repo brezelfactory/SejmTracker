@@ -1,4 +1,4 @@
-import { Component, model, OnInit, output, signal } from '@angular/core';
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import { TermService } from '../../services/term.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -10,12 +10,15 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './term-selector.component.scss'
 })
 export class TermSelectorComponent implements OnInit {
-  // Outputs
+  //input
+  showDefaultTerm = input<boolean>(false);
+
+  //outputs
   selectedTerm = output<number | undefined>();
 
-  // Local variables
+  //local variables
   terms = signal<number[]>([]);
-  
+
   constructor(private termService: TermService) { }
 
   ngOnInit(): void {
@@ -23,7 +26,6 @@ export class TermSelectorComponent implements OnInit {
     this.termService.getTerms().subscribe({
       next: (terms) => {
         this.terms.set(terms);
-        this.selectedTerm.emit(terms[0]);
       },
       error: (error) => {
         console.error('No terms available', error);

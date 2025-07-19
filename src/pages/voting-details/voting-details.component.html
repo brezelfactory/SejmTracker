@@ -1,4 +1,3 @@
-<!-- Voting details -->
 <table mat-table [dataSource]="this.votingResults()!.votes" class="mat-elevation-z8">
     <ng-container matColumnDef="last-name">
         <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
@@ -20,6 +19,6 @@
         <td mat-cell *matCellDef="let element"> {{element.voted}} </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="detailedVotingResultsColumns" class="app-table-header"></tr>
+    <tr mat-header-row *matHeaderRowDef="detailedVotingResultsColumns" class="global-table-header"></tr>
     <tr mat-row *matRowDef="let row; columns: detailedVotingResultsColumns;"></tr>
 </table>

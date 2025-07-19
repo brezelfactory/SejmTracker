@@ -3,7 +3,7 @@
         <mat-card-title class="global-mat-card-title">Wybierz głosowanie</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <app-term-selector (selectedTerm)="onTermSelected($event)"></app-term-selector>
+        <app-term-selector [showDefaultTerm]="true" (selectedTerm)="onTermSelected($event)"></app-term-selector>
 
         @if (this.selectedTerm()) {
         <app-proceeding-selector [term]="this.selectedTerm()"

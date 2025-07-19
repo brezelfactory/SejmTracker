@@ -1,4 +1,4 @@
-import { ParlamentMember } from "./parlament-member";
+import { ParlamentMemberVoting } from "./parlament-member-voting";
 
 export interface Voting {
   title: string;
@@ -19,7 +19,7 @@ export interface VotingResults {
   no: number;
   abstain: number
   notParticipating: number;
-  votes: ParlamentMember[];
+  votes: ParlamentMemberVoting[];
 }
 
 export function isVoting(input: any): input is Voting {

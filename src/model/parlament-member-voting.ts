@@ -1,4 +1,4 @@
-export interface ParlamentMember {
+export interface ParlamentMemberVoting {
     firstName: string;
     lastName: string;
     club: string
