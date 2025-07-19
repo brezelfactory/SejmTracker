@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { ParlamentMembersTableComponent } from "../../components/parlament-members-table/parlament-members-table.component";
 import { TermSelectorComponent } from "../../components/term-selector/term-selector.component";
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-parlament-members',
-  imports: [ParlamentMembersTableComponent, TermSelectorComponent],
+  imports: [ParlamentMembersTableComponent, TermSelectorComponent, MatCardModule],
   templateUrl: './parlament-members.component.html',
   styleUrl: './parlament-members.component.scss'
 })

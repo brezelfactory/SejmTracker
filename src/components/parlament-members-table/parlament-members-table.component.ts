@@ -2,10 +2,11 @@ import { Component, input, OnChanges, OnInit, signal, SimpleChanges } from '@ang
 import { MatTableModule } from '@angular/material/table';
 import { ParlamentMembersService } from '../../services/parlament-members.service';
 import { ParlamentMemberDetails } from '../../model/parlament-member-details';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-parlament-members-table',
-  imports: [MatTableModule],
+  imports: [MatTableModule, MatCardModule],
   templateUrl: './parlament-members-table.component.html',
   styleUrl: './parlament-members-table.component.scss'
 })

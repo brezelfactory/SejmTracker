@@ -1,4 +1,4 @@
-  <mat-form-field class="">
+  <mat-form-field>
     <mat-label>{{this.statusLabel()}}</mat-label>
     <input type="text" matInput [formControl]="proceedingControl" [matAutocomplete]="auto" [disabled]="isLoading()">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="display" (optionSelected)="onProceedingSelected($event)">
