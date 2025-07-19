@@ -15,5 +15,4 @@ export class ParlamentMembersComponent {
   onTermSelected(selectedTerm: number | undefined) {
     this.selectedTerm.set(selectedTerm);
   }
-
 }
