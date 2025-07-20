@@ -33,7 +33,7 @@ export class ParlamentMembersTableComponent implements OnInit, OnChanges {
 
   sortData(sortState: Sort) {
     this.parlamentMembers.update(members => {
-      return members.sort((a, b) => {
+      return members.slice().sort((a, b) => {
         const isAsc = sortState.direction === 'asc';
         switch (sortState.active) {
           case 'first-name': return this._compare(a.firstName, b.firstName, isAsc);
