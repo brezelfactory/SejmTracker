@@ -1,12 +1,5 @@
-<mat-card class="global-mat-card" appearance="outlined">
-    <mat-card-header>
-        <mat-card-title>Wybierz kadencję</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <app-term-selector (selectedTerm)="onTermSelected($event)" />
-</mat-card-content>
-</mat-card>
+<app-term-selection (selectedTerm)="this.selectedTerm.set($event)"/>
 
-    @if(this.selectedTerm() !== undefined) {
+@if(this.selectedTerm() !== undefined) {
     <app-parlament-members-table [selectedTerm]="this.selectedTerm()!" />
-    }
+}

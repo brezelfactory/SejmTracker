@@ -2,7 +2,7 @@
     <mat-label>{{this.terms().length > 0 ? "Wybierz kadencję" : "Brak dostępnych kadencji"}}</mat-label>
     <mat-select [value]="this.showDefaultTerm() ? this.terms()[0] : undefined" (valueChange)="onTermSelected($event)">
       @for (term of this.terms(); track term) {
-      <mat-option [value]="term">{{term}}</mat-option>
+        <mat-option [value]="term">{{term}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
