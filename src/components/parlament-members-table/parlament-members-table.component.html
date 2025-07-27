@@ -3,7 +3,7 @@
         <mat-card-title>Posłowie</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <table class="mat-elevation-z8 demo-table" mat-table [dataSource]="this.parlamentMembers()" matSort (matSortChange)="sortData($event)">
+        <table mat-table [dataSource]="this.parlamentMembers()" matSort (matSortChange)="sortData($event)">
             <ng-container matColumnDef="first-name">
                 <th mat-header-cell *matHeaderCellDef  mat-sort-header sortActionDescription="Sortuj po imieniu"> Imię </th>
                 <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
@@ -30,7 +30,7 @@
             </ng-container>
 
             <tr class="global-table-header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row class="parlament-members-table-mat-row" *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </mat-card-content>
 </mat-card>
