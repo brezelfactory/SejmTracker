@@ -1,9 +1,11 @@
-import { Component, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, inject, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { ParlamentMembersService } from '../../services/parlament-members.service';
 import { ParlamentMemberDetails } from '../../model/parlament-member-details';
 import { MatCardModule } from '@angular/material/card';
 import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { ParlamentMemberDetailsComponent } from '../parlament-member-details/parlament-member-details.component';
 
 @Component({
   selector: 'app-parlament-members-table',
@@ -19,7 +21,7 @@ export class ParlamentMembersTableComponent implements OnInit, OnChanges {
   parlamentMembers = signal<ParlamentMemberDetails[]>([]);
   displayedColumns: string[] = ['first-name', 'last-name', 'club', 'district-name', 'profession'];
 
-  constructor(private parlamentMembersService: ParlamentMembersService) { }
+  constructor(private parlamentMembersService: ParlamentMembersService, private detailsDialog: MatDialog) { }
 
   ngOnInit(): void {
     this._queryParlamentMembers(this.selectedTerm());
@@ -44,6 +46,14 @@ export class ParlamentMembersTableComponent implements OnInit, OnChanges {
           default: return 0;
         }
       });
+    });
+  }
+
+  openDetailsDialog($event: ParlamentMemberDetails) {
+    this.detailsDialog.open(ParlamentMemberDetailsComponent, {
+      data: $event,
+      height: '70vh',
+      width: '50vw',
     });
   }
 

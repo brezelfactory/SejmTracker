@@ -30,7 +30,7 @@
             </ng-container>
 
             <tr class="global-table-header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row class="parlament-members-table-mat-row" *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row class="parlament-members-table-mat-row" (click)="openDetailsDialog(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </mat-card-content>
 </mat-card>

@@ -1,1 +1,59 @@
-<p>parlament-member-details works!</p>
+<mat-dialog-content>
+    <h2>Szczegółowe Dane Posła</h2>
+    <mat-grid-list cols="2" rowHeight="fit">
+        <mat-grid-tile>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Dane personalne</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p><strong>Imię: </strong>{{this.data.firstName}}</p>
+                    @if (this.data.secondName) {<p><strong>Drugie imię: </strong>{{this.data.secondName}}</p>}
+                    <p><strong>Nazwisko: </strong>{{this.data.lastName}}</p>
+                    <p><strong>Województwo: </strong>{{this.data.voivodeship}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Dane urodzenia</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p><strong>Data urodzenia: </strong>{{this.data.birthDate}}</p>
+                    <p><strong>Miejsce urodzenia: </strong>{{this.data.birthLocation}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Aktywność polityczna</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p><strong>Partia: </strong>{{this.data.club}}</p>
+                    <p><strong>Aktywny: </strong>{{this.data.active ? "Tak" : "Nie"}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Edukacja</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p><strong>Wykształcenie: </strong>{{this.data.educationLevel}}</p>
+                    <p><strong>Zawód: </strong>{{this.data.profession}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+
+    </mat-grid-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButton mat-dialog-close>OK</button>
+</mat-dialog-actions>
