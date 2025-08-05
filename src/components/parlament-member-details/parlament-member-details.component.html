@@ -46,7 +46,7 @@
                 </mat-card-header>
                 <mat-card-content>
                     <p><strong>Wykształcenie: </strong>{{this.data.educationLevel}}</p>
-                    <p><strong>Zawód: </strong>{{this.data.profession}}</p>
+                    <p><strong>Zawód: </strong>{{this.data.profession ? this.data.profession : "-"}}</p>
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
