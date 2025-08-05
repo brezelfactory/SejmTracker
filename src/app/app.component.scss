@@ -11,8 +11,11 @@
   height: 100%;
   font-size: 32px;
   font-weight: bold;
-  text-shadow: 1px 1px 3px dimgray;
   color: #333;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .app-spacer {
