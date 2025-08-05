@@ -3,12 +3,14 @@ import { VotingsComponent } from '../pages/votings/votings.component';
 import { VotingDetailsComponent } from '../pages/voting-details/voting-details.component';
 import { HomeComponent } from '../pages/home/home.component';
 import { ParlamentMembersComponent } from '../pages/parlament-members/parlament-members.component';
+import { LogInComponent } from '../pages/log-in/log-in.component';
 
 
 export const homeRoute = `home`
 export const votingsRoute = `votings`
 export const parlamentMembersRoute = `parlament-members`
 export const votingDetailsRoute = `details/:id`
+export const loginRoute = `login`
 
 export const routes: Routes = [
     {
@@ -35,5 +37,10 @@ export const routes: Routes = [
         path: votingDetailsRoute,
         component: VotingDetailsComponent,
         title: 'Szczegóły głosowania',
+    },
+        {
+        path: loginRoute,
+        component: LogInComponent,
+        title: 'Logowanie',
     }
 ];
