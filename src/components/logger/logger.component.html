@@ -1,1 +1,15 @@
-<p>logger works!</p>
+<div class="logger-container">
+    <h2>Zaloguj się</h2>
+
+    <mat-form-field>
+        <mat-label>E-mail</mat-label>
+        <input matInput [formControl]="email" required />
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Hasło</mat-label>
+        <input matInput type="password" [formControl]="password" required />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="login()">Zaloguj</button>
+</div>
